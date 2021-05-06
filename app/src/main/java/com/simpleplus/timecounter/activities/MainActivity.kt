@@ -1,7 +1,8 @@
-package com.simpleplus.timecounter
+package com.simpleplus.timecounter.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.simpleplus.timecounter.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
