@@ -65,4 +65,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    //https://github.com/arbelkilani/Clock-view/wiki/1---How-to-setup-%3F
+    implementation 'com.github.arbelkilani:Clock-view:2.1.0'
 }
