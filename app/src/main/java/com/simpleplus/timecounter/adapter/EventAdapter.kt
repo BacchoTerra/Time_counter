@@ -31,7 +31,7 @@ class EventAdapter : ListAdapter<Event, EventAdapter.MyViewHolder>(EventComparat
 
         override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
 
-            return oldItem.eventName == newItem.eventName && oldItem.id == newItem.id && oldItem.timestamp == newItem.timestamp
+            return oldItem.eventName == newItem.eventName && oldItem.timestamp == newItem.timestamp
 
         }
 

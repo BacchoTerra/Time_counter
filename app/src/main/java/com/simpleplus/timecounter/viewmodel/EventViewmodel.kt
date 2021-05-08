@@ -7,6 +7,8 @@ import kotlinx.coroutines.launch
 
 class EventViewModel(private val repo: EventRepository) : ViewModel() {
 
+    val allEvents = repo.allEvents.asLiveData()
+
     fun insert(event: Event) = viewModelScope.launch {
         repo.insert(event)
     }
@@ -19,10 +21,8 @@ class EventViewModel(private val repo: EventRepository) : ViewModel() {
         repo.delete(event)
     }
 
-    fun selectAll(): LiveData<List<Event>> {
-
-        return repo.selectAll().asLiveData()
-
+    fun deleteAll() = viewModelScope.launch {
+        repo.deleteAll()
     }
 
     class EventViewModelFactory(private val repo:EventRepository): ViewModelProvider.Factory {

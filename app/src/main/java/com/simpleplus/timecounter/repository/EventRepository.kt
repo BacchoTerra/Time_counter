@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 class EventRepository(private val eventDao:EventDao) {
 
+    val allEvents = eventDao.selectAll()
+
 
     suspend fun insert(event: Event) {
 
@@ -26,10 +28,9 @@ class EventRepository(private val eventDao:EventDao) {
 
     }
 
+    suspend fun deleteAll() {
 
-    fun selectAll(): Flow<List<Event>> {
-
-        return eventDao.selectAll()
+        eventDao.deleteAll()
 
     }
 

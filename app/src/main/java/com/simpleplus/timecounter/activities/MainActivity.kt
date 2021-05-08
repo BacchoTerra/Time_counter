@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.simpleplus.timecounter.R
+import com.simpleplus.timecounter.adapter.EventAdapter
+import com.simpleplus.timecounter.application.EventApplication
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.databinding.ContentAddEventBinding
 import com.simpleplus.timecounter.databinding.ContentSurfaceAddBinding
@@ -18,12 +21,22 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     //Layout components
-    private lateinit var binder:ActivityMainBinding
+    private lateinit var binder: ActivityMainBinding
 
     //activityResult code
-    companion object {const val REQ_CODE_ADD_EVENT = 100}
+    companion object {
+        const val REQ_CODE_ADD_EVENT = 100
+    }
 
+    //ViewModel
+    private val eventViewModel: EventViewModel by viewModels {
+        EventViewModel.EventViewModelFactory(
+            (application as EventApplication).eventRepo
+        )
+    }
 
+    //Recyclerview
+    private val adapter: EventAdapter = EventAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binder.root)
 
         startAddActivity()
+        initRecyclerView()
+        eventViewModel.deleteAll()
     }
 
 
@@ -39,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         binder.activityMainContentFabAdd.contentSurfaceAddFabAdd.setOnClickListener {
 
-            val intent = Intent(this,AddEventActivity::class.java)
+            val intent = Intent(this, AddEventActivity::class.java)
             startActivityForResult(intent, REQ_CODE_ADD_EVENT)
 
         }
@@ -47,11 +62,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-
-
+        val recyclerView = binder.activityMainRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = adapter
 
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,11 +75,9 @@ class MainActivity : AppCompatActivity() {
 
         if (resultCode == RESULT_OK && requestCode == REQ_CODE_ADD_EVENT) {
 
-            val event:Event = data?.extras?.getParcelable(getString(R.string.extra_key_event)) !!
-            val c = Calendar.getInstance()
+            val event: Event = data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
 
-            c.timeInMillis = event.timestamp
-            Log.i("Porsche", "onActivityResult: ${c.time}")
+            eventViewModel.insert(event)
 
         }
 
