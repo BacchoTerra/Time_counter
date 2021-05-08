@@ -3,4 +3,14 @@
     <string name="label_active_timers">Timers ativos: %1$d</string>
     <string name="label_inactive_timers">Timers ativos: %1$d</string>
     <string name="label_no_item_to_show">Nenhum item disponível..</string>
+    <string name="content_desc_fab_add">Adicionar novo evento</string>
+    <string name="label_event_title">Título do evento</string>
+    <string name="hint_event_title">Título do evento</string>
+    <string name="label_define_date">Definir data</string>
+    <string name="label_define_time_optional">Definir horário (opcional)</string>
+    <string name="label_enable_notification">Ativar lembrete</string>
+    <string name="label_save">Salvar</string>
+    <string name="error_empty_field">Campo obrigatório</string>
+    <string name="extra_key_event">EXTRA_KEY_EVENT</string>
+    <string name="toast_slecet_date">Selecione uma data</string>
 </resources>

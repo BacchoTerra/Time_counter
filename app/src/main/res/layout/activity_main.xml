@@ -126,6 +126,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
+        android:id="@+id/activity_main_content_fab_add"
         layout="@layout/content_surface_add"
         app:layout_anchor="@id/activity_main_container"
         app:layout_anchorGravity="bottom|center"

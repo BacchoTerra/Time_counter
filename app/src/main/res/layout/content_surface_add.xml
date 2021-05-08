@@ -7,12 +7,14 @@
     android:gravity="center|bottom">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/content_surface_add_fab_add"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_baseline_add_24"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_16dp"
         app:backgroundTint="@color/backgroundColor"
-        app:tint="@color/primaryColor" />
+        app:tint="@color/primaryColor"
+        android:contentDescription="@string/content_desc_fab_add" />
 
 
 </RelativeLayout>

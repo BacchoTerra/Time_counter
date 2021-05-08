@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/backgroundColor">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_16dp" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/content_add_event_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="" />
+
+    <TextView
+        android:id="@+id/content_add_event_txtEventTitle"
+        style="@style/TextStyleRobotoLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:drawablePadding="@dimen/padding_16dp"
+        android:text="@string/label_event_title"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:drawableEndCompat="@drawable/ic_baseline_create_24"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_toolbar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/content_add_event_inputEventTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:visibility="visible"
+        app:boxStrokeErrorColor="@color/errorColor"
+        app:errorTextColor="@color/errorColor"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/content_add_event_txtEventTitle"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/content_add_event_editEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hint_event_title"
+            android:inputType="textPersonName" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/content_add_event_txtDefineDate"
+        style="@style/TextStyleRobotoLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:drawablePadding="@dimen/padding_16dp"
+        android:text="@string/label_define_date"
+        android:textSize="18sp"
+        app:drawableEndCompat="@drawable/ic_baseline_create_24"
+        app:layout_constraintStart_toStartOf="@+id/content_add_event_txtEventTitle"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_inputEventTitle" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/content_add_event_switchAddTime"
+        style="@style/MySwitchStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:text="@string/label_define_time_optional"
+        android:textAppearance="@style/TextStyleRobotoLight"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/content_add_event_txtDefineDate"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_txtDefineDate"
+        app:switchPadding="@dimen/padding_16dp" />
+
+    <TimePicker
+        android:id="@+id/content_add_event_timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:timePickerMode="spinner"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/content_add_event_switchAddTime"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_switchAddTime" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/content_add_event_switchEnableNotification"
+        style="@style/MySwitchStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:text="@string/label_enable_notification"
+        android:textAppearance="@style/TextStyleRobotoLight"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/content_add_event_timePicker"
+        app:switchPadding="@dimen/padding_16dp" />
+
+    <Button
+        android:id="@+id/content_add_event_btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/shape_serious_button_enabled"
+        android:text="@string/label_save"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
