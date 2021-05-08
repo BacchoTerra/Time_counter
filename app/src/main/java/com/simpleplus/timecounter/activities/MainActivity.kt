@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.databinding.ContentAddEventBinding
 import com.simpleplus.timecounter.databinding.ContentSurfaceAddBinding
 import com.simpleplus.timecounter.model.Event
+import com.simpleplus.timecounter.viewmodel.EventViewModel
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     //activityResult code
     companion object {const val REQ_CODE_ADD_EVENT = 100}
+
 
 
 
@@ -40,6 +43,12 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, REQ_CODE_ADD_EVENT)
 
         }
+
+    }
+
+    private fun initRecyclerView() {
+
+
 
     }
 

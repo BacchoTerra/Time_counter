@@ -15,7 +15,7 @@ abstract class TimeCounterDatabase:RoomDatabase (){
     companion object {
 
         @Volatile
-        var INSTANCE:TimeCounterDatabase? = null
+        private var INSTANCE:TimeCounterDatabase? = null
 
         fun getInstance(context:Context):TimeCounterDatabase {
 

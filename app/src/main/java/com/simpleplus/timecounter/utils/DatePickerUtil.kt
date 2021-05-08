@@ -18,8 +18,7 @@ object DatePickerUtil : MaterialPickerOnPositiveButtonClickListener<Long> {
     var dateListener: ((timestamp:Long) -> Unit)? = null
 
     //Value
-    const val MILLIS_DAY:Long = 86400000
-
+    private const val MILLIS_DAY:Long = 86400000
 
     fun showPicker(manager: FragmentManager) {
 

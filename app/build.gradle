@@ -54,12 +54,14 @@ dependencies {
 
     //ViewModel an lifecycle components
     def lifecycle_version = "2.3.1"
+    def fragment_version = "1.3.3"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     //Room dependencies
     def room_version = "2.3.0"

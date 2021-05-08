@@ -1,9 +1,6 @@
 package com.simpleplus.timecounter.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.repository.EventRepository
 import kotlinx.coroutines.launch
@@ -25,6 +22,20 @@ class EventViewModel(private val repo: EventRepository) : ViewModel() {
     fun selectAll(): LiveData<List<Event>> {
 
         return repo.selectAll().asLiveData()
+
+    }
+
+    class EventViewModelFactory(private val repo:EventRepository): ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
+            if (modelClass.isAssignableFrom(EventViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return EventViewModel(repo) as T
+            }
+
+            throw IllegalArgumentException("Unknown ViewModel class")
+
+        }
 
     }
 
