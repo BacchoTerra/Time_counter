@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
@@ -16,6 +17,7 @@ import com.simpleplus.timecounter.databinding.ContentAddEventBinding
 import com.simpleplus.timecounter.databinding.ContentSurfaceAddBinding
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.viewmodel.EventViewModel
+import kotlinx.coroutines.GlobalScope
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Recyclerview
-    private val adapter: EventAdapter = EventAdapter()
+    private val adapter: EventAdapter = EventAdapter(lifecycleScope)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
         startAddActivity()
         initRecyclerView()
-        eventViewModel.deleteAll()
     }
 
 
@@ -64,8 +65,18 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         val recyclerView = binder.activityMainRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
+
+        eventViewModel.allEvents.observe(this, {
+
+            adapter.submitList(it)
+
+            if (it.isNotEmpty()) binder.activityMainTxtNoItensToShow.visibility =
+                View.GONE else binder.activityMainTxtNoItensToShow.visibility = View.VISIBLE
+
+
+        })
 
     }
 
