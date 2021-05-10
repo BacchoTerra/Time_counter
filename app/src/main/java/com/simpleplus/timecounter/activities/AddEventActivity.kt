@@ -122,7 +122,7 @@ class AddEventActivity : AppCompatActivity() {
         val eventName = binder.contentAddEventEditEventTitle.text.toString()
 
         defineTimestampHours()
-        val event = Event(eventName, timestamp = calendar.timeInMillis)
+        val event = Event(eventName, timestamp = calendar.timeInMillis,isNotifying = binder.contentAddEventSwitchEnableNotification.isChecked)
         sendResultBack(event)
 
 

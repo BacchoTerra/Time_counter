@@ -11,5 +11,8 @@ import kotlinx.android.parcel.Parcelize
 data class Event(
     val eventName: String,
     @PrimaryKey(autoGenerate = true) val id: Int =0,
-    val timestamp: Long
+    val timestamp: Long,
+    val isFinished:Boolean = false,
+    val isNotifying:Boolean = true
+
 ) : Parcelable

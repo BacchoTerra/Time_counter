@@ -1,10 +1,8 @@
 package com.simpleplus.timecounter.activities
 
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,12 +12,8 @@ import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
 import com.simpleplus.timecounter.application.EventApplication
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
-import com.simpleplus.timecounter.databinding.ContentAddEventBinding
-import com.simpleplus.timecounter.databinding.ContentSurfaceAddBinding
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.viewmodel.EventViewModel
-import kotlinx.coroutines.GlobalScope
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,14 +31,16 @@ class MainActivity : AppCompatActivity() {
     private val adapter: EventAdapter = EventAdapter(lifecycleScope)
 
     //ActivityResult
-    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 
-        if (it.resultCode == RESULT_OK){
-            val event: Event = it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
-            eventViewModel.insert(event)
+            if (it.resultCode == RESULT_OK) {
+                val event: Event =
+                    it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
+                eventViewModel.insert(event)
+            }
+
         }
-
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,13 +72,28 @@ class MainActivity : AppCompatActivity() {
 
         eventViewModel.allEvents.observe(this, {
 
-            adapter.submitList(it)
+
+            autoUpdateEventsAndAdapter(it, adapter)
 
             if (it.isNotEmpty()) binder.activityMainTxtNoItensToShow.visibility =
                 View.GONE else binder.activityMainTxtNoItensToShow.visibility = View.VISIBLE
 
 
         })
+
+    }
+
+    private fun autoUpdateEventsAndAdapter(list: List<Event>, adapter: EventAdapter) {
+
+        val currentTime = System.currentTimeMillis()
+
+        for (event in list) {
+            if (!event.isFinished && event.timestamp <= currentTime) {
+                eventViewModel.update(event.copy(isFinished = true))
+            }
+        }
+
+        adapter.submitList(list)
 
     }
 }

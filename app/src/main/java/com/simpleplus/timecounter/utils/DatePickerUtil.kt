@@ -47,7 +47,7 @@ object DatePickerUtil : MaterialPickerOnPositiveButtonClickListener<Long> {
         calendarStart.set(
             year,
             calendarStart.get(Calendar.MONTH),
-            calendarStart.get(Calendar.DAY_OF_MONTH) - 1
+            calendarStart.get(Calendar.DAY_OF_MONTH-1),
         )
 
         val minDate = calendarStart.timeInMillis

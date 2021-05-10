@@ -62,7 +62,7 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
 
         val event = getItem(position)
 
-        return if (event.timestamp < System.currentTimeMillis()) return TYPE_FINISHED else TYPE_OPEN
+        return if (event.isFinished) return TYPE_FINISHED else TYPE_OPEN
 
     }
 
