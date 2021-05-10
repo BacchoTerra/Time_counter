@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,11 +26,6 @@ class MainActivity : AppCompatActivity() {
     //Layout components
     private lateinit var binder: ActivityMainBinding
 
-    //activityResult code
-    companion object {
-        const val REQ_CODE_ADD_EVENT = 100
-    }
-
     //ViewModel
     private val eventViewModel: EventViewModel by viewModels {
         EventViewModel.EventViewModelFactory(
@@ -39,6 +35,16 @@ class MainActivity : AppCompatActivity() {
 
     //Recyclerview
     private val adapter: EventAdapter = EventAdapter(lifecycleScope)
+
+    //ActivityResult
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+        if (it.resultCode == RESULT_OK){
+            val event: Event = it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
+            eventViewModel.insert(event)
+        }
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         binder.activityMainContentFabAdd.contentSurfaceAddFabAdd.setOnClickListener {
 
             val intent = Intent(this, AddEventActivity::class.java)
-            startActivityForResult(intent, REQ_CODE_ADD_EVENT)
+            launcher.launch(intent)
 
         }
 
@@ -77,20 +83,6 @@ class MainActivity : AppCompatActivity() {
 
 
         })
-
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK && requestCode == REQ_CODE_ADD_EVENT) {
-
-            val event: Event = data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
-
-            eventViewModel.insert(event)
-
-        }
 
     }
 }

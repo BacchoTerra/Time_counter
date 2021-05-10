@@ -14,4 +14,7 @@
     <string name="extra_key_event">EXTRA_KEY_EVENT</string>
     <string name="toast_slecet_date">Selecione uma data</string>
     <string name="label_days_hours_minutes_seconds">"%1$d: %2$d: %3$d: %4$d"</string>
+    <string name="label_details">Detalhes</string>
+    <string name="label_delete">Deletar</string>
+    <string name="label_no_time">00:00:00</string>
 </resources>

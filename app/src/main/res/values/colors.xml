@@ -24,4 +24,6 @@
 
     <color name="switchTrackChecked">#ffdf49</color>
     <color name="switchTrackUnchecked">#9E9E9E</color>
+
+    <color name="text_finished_color">#9F9F9F</color>
 </resources>

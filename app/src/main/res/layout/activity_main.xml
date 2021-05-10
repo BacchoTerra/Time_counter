@@ -62,7 +62,7 @@
 
         <View
             android:id="@+id/activity_main_divider"
-            android:layout_width="@dimen/width_1dp"
+            android:layout_width="@dimen/size_1dp"
             android:layout_height="@dimen/height_25dp"
             android:layout_marginTop="@dimen/margin_32dp"
             android:background="@color/primaryColor"
@@ -100,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_no_item_to_show"
+            tools:visibility="gone"
             android:textSize="@dimen/text_size_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -114,7 +115,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/activity_main_divider"
-            tools:listitem="@layout/row_events" />
+            tools:listitem="@layout/row_open_events" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
