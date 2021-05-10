@@ -1,24 +1,31 @@
 package com.simpleplus.timecounter.adapter
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.activities.AddEventActivity
 import com.simpleplus.timecounter.model.Event
+import com.simpleplus.timecounter.viewmodel.EventViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class EventAdapter(private val launcher: ActivityResultLauncher<Intent>, val context: Context) :
+class EventAdapter(
+    private val launcher: ActivityResultLauncher<Intent>,
+    private val context: Context,
+    private val viewModel: EventViewModel
+) :
     ListAdapter<Event, RecyclerView.ViewHolder>(EventComparator()) {
 
     //ViewTypes
@@ -43,6 +50,8 @@ class EventAdapter(private val launcher: ActivityResultLauncher<Intent>, val con
         val txtDefinedDate: TextView = view.findViewById(R.id.row_finished_events_txtDefinedDate)
         val txtRemainingTime: TextView =
             view.findViewById(R.id.row_finished_events_txtRemainingTime)
+        val txtDelete: TextView =
+            view.findViewById(R.id.row_finished_events_txtDelete)
 
 
     }
@@ -125,6 +134,11 @@ class EventAdapter(private val launcher: ActivityResultLauncher<Intent>, val con
 
         holder.txtEventName.text = event.eventName
         holder.txtDefinedDate.text = formatDate(event)
+
+        holder.txtDelete.setOnClickListener {
+            initDeleteDialog(event)
+
+        }
     }
 
     private fun formatDate(event: Event): String {
@@ -160,6 +174,25 @@ class EventAdapter(private val launcher: ActivityResultLauncher<Intent>, val con
         //builder.append(if (seconds > 9) "$seconds " else "0$seconds")
 
         return builder.toString()
+
+    }
+
+    private fun initDeleteDialog(event: Event) {
+        val builder = AlertDialog.Builder(context).apply {
+            setTitle(R.string.label_delete_event)
+            setMessage(R.string.label_permanent_action)
+            setPositiveButton(R.string.label_delete) { _: DialogInterface, _: Int ->
+
+                viewModel.delete(event)
+
+            }
+            setNegativeButton(R.string.label_cancel) { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
 
     }
 }

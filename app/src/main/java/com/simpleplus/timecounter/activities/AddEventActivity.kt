@@ -1,5 +1,6 @@
 package com.simpleplus.timecounter.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.TimePicker
+import androidx.appcompat.app.AlertDialog
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.databinding.ActivityAddEditEventBinding
 import com.simpleplus.timecounter.model.Event
@@ -41,8 +43,25 @@ class AddEventActivity : AppCompatActivity() {
         }
 
         binder.activityAddEditEventTxtDelete.setOnClickListener{
-            sendResultBack(eventEditing!!,true)
+            initDeleteDialog()
         }
+    }
+
+    private fun initDeleteDialog() {
+        val builder = AlertDialog.Builder(this).apply {
+            setTitle(R.string.label_delete_event)
+            setMessage(R.string.label_permanent_action)
+            setPositiveButton(R.string.label_delete) { _: DialogInterface, _: Int ->
+                sendResultBack(eventEditing!!,true)
+            }
+            setNegativeButton(R.string.label_cancel) { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+
     }
 
     private fun retrieveEventIfEditing() {

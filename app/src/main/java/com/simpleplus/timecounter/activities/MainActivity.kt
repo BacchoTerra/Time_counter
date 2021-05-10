@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
 import com.simpleplus.timecounter.application.EventApplication
@@ -27,36 +30,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     //ActivityResult
-    private val addEventLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                val event: Event =
-                    it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
-                eventViewModel.insert(event)
-            }
-
-        }
-
-    private val editEventLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-            if (it.resultCode == RESULT_OK) {
-
-                val event: Event =
-                    it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
-
-                if (it.data?.extras?.getBoolean(getString(R.string.extra_key_delete_event))!!) {
-                    eventViewModel.delete(event)
-                } else {
-                    eventViewModel.update(event)
-                }
-
-            }
-
-        }
+    private lateinit var addEventLauncher:ActivityResultLauncher<Intent>
+    private lateinit var editEventLauncher: ActivityResultLauncher<Intent>
 
     //Recyclerview
-    private val adapter: EventAdapter = EventAdapter(editEventLauncher, this)
+    private lateinit var adapter: EventAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,8 +42,43 @@ class MainActivity : AppCompatActivity() {
         binder = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
+        startLaunchers()
         startAddActivity()
         initRecyclerView()
+    }
+
+    private fun startLaunchers() {
+        addEventLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    val event: Event =
+                        it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
+                    eventViewModel.insert(event)
+
+                    Snackbar.make(binder.root,R.string.label_event_added,Snackbar.LENGTH_SHORT).show()
+
+                }
+
+            }
+
+        editEventLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+                if (it.resultCode == RESULT_OK) {
+
+                    val event: Event =
+                        it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
+
+                    if (it.data?.extras?.getBoolean(getString(R.string.extra_key_delete_event))!!) {
+                        eventViewModel.delete(event)
+                    } else {
+                        eventViewModel.update(event)
+                        Snackbar.make(binder.root,R.string.label_event_updated,Snackbar.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            }
     }
 
 
@@ -81,6 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
+        adapter = EventAdapter(editEventLauncher, this, eventViewModel)
         val recyclerView = binder.activityMainRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter

@@ -23,4 +23,9 @@
     <string name="label_hour_minute">%1$d:%2$d</string>
     <string name="label_update">Atualizar</string>
     <string name="extra_key_delete_event">EXTRA_KEY_DELETE_EVENT</string>
+    <string name="label_delete_event">Deletar evento</string>
+    <string name="label_permanent_action">Essa é uma ação permanente e não podera ser desfeita.</string>
+    <string name="label_cancel">Cancelar</string>
+    <string name="label_event_added">Evento adicionado</string>
+    <string name="label_event_updated">Evento atualizado</string>
 </resources>
