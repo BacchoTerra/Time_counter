@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
@@ -27,13 +26,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    //Recyclerview
-    private val adapter: EventAdapter = EventAdapter(lifecycleScope)
-
     //ActivityResult
-    private val launcher =
+    private val addEventLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
             if (it.resultCode == RESULT_OK) {
                 val event: Event =
                     it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
@@ -41,6 +36,27 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+    private val editEventLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+            if (it.resultCode == RESULT_OK) {
+
+                val event: Event =
+                    it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
+
+                if (it.data?.extras?.getBoolean(getString(R.string.extra_key_delete_event))!!) {
+                    eventViewModel.delete(event)
+                } else {
+                    eventViewModel.update(event)
+                }
+
+            }
+
+        }
+
+    //Recyclerview
+    private val adapter: EventAdapter = EventAdapter(editEventLauncher, this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         binder.activityMainContentFabAdd.contentSurfaceAddFabAdd.setOnClickListener {
 
             val intent = Intent(this, AddEventActivity::class.java)
-            launcher.launch(intent)
+            addEventLauncher.launch(intent)
 
         }
 

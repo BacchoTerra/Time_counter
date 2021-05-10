@@ -1,31 +1,35 @@
 package com.simpleplus.timecounter.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.simpleplus.timecounter.R
+import com.simpleplus.timecounter.activities.AddEventActivity
 import com.simpleplus.timecounter.model.Event
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
+class EventAdapter(private val launcher: ActivityResultLauncher<Intent>, val context: Context) :
     ListAdapter<Event, RecyclerView.ViewHolder>(EventComparator()) {
 
     //ViewTypes
-    companion object{
+    companion object {
         const val TYPE_OPEN = 0
         const val TYPE_FINISHED = 1
     }
 
     class OpenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        val root: ViewGroup = view.findViewById(R.id.row_open_events_root)
         val txtEventName: TextView = view.findViewById(R.id.row_open_events_txtEventName)
         val txtDefinedDate: TextView = view.findViewById(R.id.row_open_events_txtDefinedDate)
         val txtRemainingTime: TextView = view.findViewById(R.id.row_open_events_txtRemainingTime)
@@ -37,7 +41,8 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
 
         val txtEventName: TextView = view.findViewById(R.id.row_finished_events_txtEventName)
         val txtDefinedDate: TextView = view.findViewById(R.id.row_finished_events_txtDefinedDate)
-        val txtRemainingTime: TextView = view.findViewById(R.id.row_finished_events_txtRemainingTime)
+        val txtRemainingTime: TextView =
+            view.findViewById(R.id.row_finished_events_txtRemainingTime)
 
 
     }
@@ -69,11 +74,16 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return when(viewType) {
+        return when (viewType) {
 
-            TYPE_OPEN -> OpenViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_open_events, parent, false))
+            TYPE_OPEN -> OpenViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.row_open_events, parent, false)
+            )
 
-            else -> FinishedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_finished_events, parent, false))
+            else -> FinishedViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_finished_events, parent, false)
+            )
         }
 
     }
@@ -82,14 +92,13 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
 
         val event = getItem(position)
 
-        when(holder) {
+        when (holder) {
 
             is OpenViewHolder -> bindOpenedViewHolder(event, holder)
 
-            else -> bindFinishedViewHolder(event,holder as FinishedViewHolder)
+            else -> bindFinishedViewHolder(event, holder as FinishedViewHolder)
 
         }
-
 
 
     }
@@ -99,6 +108,16 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
         holder.txtEventName.text = event.eventName
         holder.txtDefinedDate.text = formatDate(event)
         formatAndSetTime(event.timestamp - System.currentTimeMillis(), holder)
+
+        holder.root.setOnClickListener {
+
+            launcher.launch(Intent(Intent(context, AddEventActivity::class.java).apply {
+                putExtra(
+                    context.getString(R.string.extra_key_event),
+                    event
+                )
+            }))
+        }
 
     }
 
@@ -128,7 +147,7 @@ class EventAdapter(private val lifeCycle: LifecycleCoroutineScope) :
             TimeUnit.MILLISECONDS.toMinutes(millisToIt)
         )
 
-        holder.txtRemainingTime.text = buildTimeString(days,hours,minutes,seconds)
+        holder.txtRemainingTime.text = buildTimeString(days, hours, minutes, seconds)
     }
 
     private fun buildTimeString(days: Long, hours: Long, minutes: Long, seconds: Long): String {

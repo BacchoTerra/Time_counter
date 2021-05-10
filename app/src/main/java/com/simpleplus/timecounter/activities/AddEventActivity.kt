@@ -1,159 +1,219 @@
 package com.simpleplus.timecounter.activities
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.TimePicker
-import android.widget.Toast
 import com.simpleplus.timecounter.R
-import com.simpleplus.timecounter.databinding.ContentAddEventBinding
+import com.simpleplus.timecounter.databinding.ActivityAddEditEventBinding
 import com.simpleplus.timecounter.model.Event
-import com.simpleplus.timecounter.utils.DatePickerUtil
-import com.simpleplus.timecounter.utils.DatePickerUtil.dateListener
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AddEventActivity : AppCompatActivity() {
 
     //Layout components
-    private lateinit var binder: ContentAddEventBinding
+    private lateinit var binder: ActivityAddEditEventBinding
+
+    //Event for editing
+    private var eventEditing: Event? = null
+    private var isEditing = false
 
     //Timestamp from materialDatePicker
     private val calendar = Calendar.getInstance()
-    private var isDateChosen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binder = ContentAddEventBinding.inflate(layoutInflater)
+        binder = ActivityAddEditEventBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
+        retrieveEventIfEditing()
         initToolbar()
-        handleTimePickerVisibility()
-        showDatePicker()
+        customizePickers()
+        updateUiWithCalendarDate()
 
         enableSaveButton()
 
-        binder.contentAddEventBtnSave.setOnClickListener {
+        binder.activityAddEventBtnSave.setOnClickListener {
             createEvent()
+        }
+
+        binder.activityAddEditEventTxtDelete.setOnClickListener{
+            sendResultBack(eventEditing!!,true)
         }
     }
 
+    private fun retrieveEventIfEditing() {
+
+        eventEditing = intent?.extras?.getParcelable(getString(R.string.extra_key_event))
+
+
+        eventEditing?.let {
+            bindEditingValues()
+            isEditing = true
+        }
+
+    }
+
+    private fun bindEditingValues() {
+
+        binder.activityAddEventEditEventTitle.setText(eventEditing?.eventName)
+        calendar.timeInMillis = eventEditing?.timestamp!!
+        binder.activityAddEventBtnSave.isEnabled = true
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            binder.activityAddEventTimePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+            binder.activityAddEventTimePicker.minute = calendar.get(Calendar.MINUTE)
+        } else {
+            binder.activityAddEventTimePicker.currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            binder.activityAddEventTimePicker.currentMinute = calendar.get(Calendar.MINUTE)
+        }
+
+        binder.activityAddEventBtnSave.text = getString(R.string.label_update)
+
+        binder.activityAddEventSwitchEnableNotification.isChecked = eventEditing?.isNotifying!!
+
+        binder.activityAddEditEventTxtDelete.visibility = View.VISIBLE
+
+        updateUiWithCalendarDate()
+    }
+
     private fun initToolbar() {
-        val toolbar = binder.contentAddEventToolbar
+        val toolbar = binder.activityAddEditEventToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = null
 
     }
 
-    private fun handleTimePickerVisibility() {
+    private fun customizePickers() {
 
-        val timePicker = binder.contentAddEventTimePicker
+        binder.activityAddEventTimePicker.setIs24HourView(true)
 
+        bindPickerListeners()
 
-        binder.contentAddEventSwitchAddTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
-
-            timePicker.visibility = if (b) View.VISIBLE else View.GONE
-        }
 
     }
 
-    private fun showDatePicker() {
+    private fun bindPickerListeners() {
 
-        binder.contentAddEventTxtDefineDate.setOnClickListener {
-            DatePickerUtil.showPicker(supportFragmentManager)
-        }
+        binder.activityAddEventDatePicker.init(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ) { _, year, monthOfYear, dayOfMonth ->
 
-    }
+            calendar.apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, monthOfYear)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
 
-    private fun getAndHandleDateTimestamp(){
-
-        dateListener = { returnedTimestamp ->
-
-            calendar.timeInMillis = returnedTimestamp
-            updateUiWithTimestamp()
-            isDateChosen = true
-
-            binder.contentAddEventBtnSave.isEnabled =
-                binder.contentAddEventEditEventTitle.text.toString().isNotEmpty()
+            updateUiWithCalendarDate()
 
         }
 
+        binder.activityAddEventTimePicker.setOnTimeChangedListener { timePicker: TimePicker, i: Int, i1: Int ->
+
+            calendar.set(Calendar.HOUR_OF_DAY, i)
+            calendar.set(Calendar.MINUTE, i1)
+
+            updateUiWithCalendarDate()
+
+        }
+
+
     }
 
-    private fun updateUiWithTimestamp() {
+    private fun updateUiWithCalendarDate() {
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        binder.contentAddEventTxtDefineDate.text = sdf.format(calendar.timeInMillis)
+        val weekDayDN =
+            calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
+        val monthDN = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        binder.activityAddEventTxtDefinedDateTime.text = getString(
+            R.string.label_dayweek_daymonth_month_year,
+            weekDayDN,
+            dayOfMonth,
+            monthDN,
+            year
+        )
+
+        binder.activityAddEventTxtHourMinute.text =
+            getString(R.string.label_hour_minute, hour, minute)
 
     }
 
     private fun enableSaveButton() {
 
-        binder.contentAddEventEditEventTitle.addTextChangedListener(object :TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        binder.activityAddEventEditEventTitle.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                binder.contentAddEventBtnSave.isEnabled = count >0 && isDateChosen
-            }
+                    binder.activityAddEventBtnSave.isEnabled =
+                        count > 0
+                }
 
-            override fun afterTextChanged(s: Editable?) {
+                override fun afterTextChanged(s: Editable?) {
 
-            }
+                }
 
-        })
-
-        getAndHandleDateTimestamp()
+            })
 
 
     }
 
     private fun createEvent() {
 
-        val eventName = binder.contentAddEventEditEventTitle.text.toString()
-
-        defineTimestampHours()
-        val event = Event(eventName, timestamp = calendar.timeInMillis,isNotifying = binder.contentAddEventSwitchEnableNotification.isChecked)
-        sendResultBack(event)
+        val eventName =
+            binder.activityAddEventEditEventTitle.text.toString()
 
 
-    }
-
-    private fun defineTimestampHours() {
-
-        if (binder.contentAddEventSwitchAddTime.isChecked) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                calendar.set(Calendar.HOUR_OF_DAY, binder.contentAddEventTimePicker.hour)
-                calendar.set(Calendar.MINUTE, binder.contentAddEventTimePicker.minute)
-            } else {
-                calendar.set(Calendar.HOUR_OF_DAY, binder.contentAddEventTimePicker.currentHour)
-                calendar.set(Calendar.MINUTE, binder.contentAddEventTimePicker.currentMinute)
-            }
 
 
-        }else{
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
+        if (isEditing) {
+            val event = eventEditing?.copy(
+                eventName = eventName,
+                timestamp = calendar.timeInMillis,
+                isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
+            )
+
+            sendResultBack(event!!,false)
+            return
         }
+
+        val event = Event(
+            eventName,
+            timestamp = calendar.timeInMillis,
+            isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
+        )
+
+        sendResultBack(event,false)
+
+
     }
 
-    private fun sendResultBack(event: Event) {
+    private fun sendResultBack(event: Event,shouldDeleteIt:Boolean) {
 
         val intent = Intent()
-        intent.putExtra(getString(R.string.extra_key_event),event)
+        intent.putExtra(getString(R.string.extra_key_event), event)
+        intent.putExtra(getString(R.string.extra_key_delete_event), shouldDeleteIt)
         setResult(RESULT_OK, intent)
         finish()
 
     }
-
 }

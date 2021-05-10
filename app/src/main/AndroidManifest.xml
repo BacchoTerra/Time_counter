@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimeCounter">
-        <activity android:name=".activities.EditEventActivity"></activity>
         <activity
             android:name=".activities.AddEventActivity"
             android:parentActivityName=".activities.MainActivity" />

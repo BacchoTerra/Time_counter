@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.simpleplus.timecounter.dao.EventDao
 import com.simpleplus.timecounter.model.Event
 
-@Database(entities = [Event::class],version = 1)
+@Database(entities = [Event::class],version = 2)
 abstract class TimeCounterDatabase:RoomDatabase (){
 
     abstract fun EventDao():EventDao

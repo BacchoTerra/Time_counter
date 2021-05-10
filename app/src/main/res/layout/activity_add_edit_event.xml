@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_16dp" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/activity_add_edit_event_appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_add_edit_event_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/backgroundColor" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText
+        android:id="@+id/activity_add_event_editEventTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/roboto_light"
+        android:hint="@string/hint_event_title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/activity_add_edit_event_appBarLayout" />
+
+    <include
+        android:id="@+id/divider"
+        layout="@layout/content_divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/activity_add_event_editEventTitle" />
+
+    <HorizontalScrollView
+        android:id="@+id/activity_add_event_pickersContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/activity_add_event_labelDate">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <DatePicker
+                android:id="@+id/activity_add_event_datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_150dp"
+                android:layout_marginTop="8dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:minDate="" />
+
+            <TimePicker
+                android:id="@+id/activity_add_event_timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_150dp"
+                android:timePickerMode="spinner" />
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/activity_add_event_pickersContainer" />
+
+    <TextView
+        android:id="@+id/activity_add_event_labelDate"
+        style="@style/TextStyleRobotoMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_event_date"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/activity_add_event_txtHourMinute"
+        style="@style/TextStyleRobotoRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11:55"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_add_event_txtDefinedDateTime"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/activity_add_event_txtDefinedDateTime" />
+
+    <TextView
+        android:id="@+id/activity_add_event_txtDefinedDateTime"
+        style="@style/TextStyleRobotoRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/activity_add_event_txtHourMinute"
+        app:layout_constraintTop_toTopOf="@+id/activity_add_event_labelDate"
+        tools:text="seg., 10 mai. 1998" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/activity_add_event_switchEnableNotification"
+        style="@style/MySwitchStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/label_enable_notification"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <Button
+        android:id="@+id/activity_add_event_btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/selector_btn_serious"
+        android:enabled="false"
+        android:text="@string/label_save"
+        app:layout_constraintBottom_toTopOf="@+id/activity_add_edit_event_txtDelete"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+
+    <TextView
+        android:id="@+id/activity_add_edit_event_txtDelete"
+        style="@style/TextStyleRobotoLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        android:text="@string/label_delete"
+        android:textColor="@color/errorColor"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
