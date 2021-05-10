@@ -1,8 +1,12 @@
 package com.simpleplus.timecounter.activities
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -13,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
 import com.simpleplus.timecounter.application.EventApplication
+import com.simpleplus.timecounter.broadcastreceiver.AlertBroadcastReceiver
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.viewmodel.EventViewModel
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //ActivityResult
-    private lateinit var addEventLauncher:ActivityResultLauncher<Intent>
+    private lateinit var addEventLauncher: ActivityResultLauncher<Intent>
     private lateinit var editEventLauncher: ActivityResultLauncher<Intent>
 
     //Recyclerview
@@ -53,9 +58,12 @@ class MainActivity : AppCompatActivity() {
                 if (it.resultCode == RESULT_OK) {
                     val event: Event =
                         it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
-                    eventViewModel.insert(event)
 
-                    Snackbar.make(binder.root,R.string.label_event_added,Snackbar.LENGTH_SHORT).show()
+                    eventViewModel.insert(event)
+                    setAlarm(event)
+                    Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
+                        .show()
+                    Log.i("Porsche", "startLaunchers: ${event.timestamp}")
 
                 }
 
@@ -73,7 +81,11 @@ class MainActivity : AppCompatActivity() {
                         eventViewModel.delete(event)
                     } else {
                         eventViewModel.update(event)
-                        Snackbar.make(binder.root,R.string.label_event_updated,Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binder.root,
+                            R.string.label_event_updated,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
 
                 }
@@ -124,6 +136,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.submitList(list)
+
+    }
+
+    private fun setAlarm(event: Event) {
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, event.id, intent, 0)
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
 
     }
 }

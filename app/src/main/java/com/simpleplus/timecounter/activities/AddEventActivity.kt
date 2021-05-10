@@ -128,6 +128,8 @@ class AddEventActivity : AppCompatActivity() {
                 set(Calendar.YEAR, year)
                 set(Calendar.MONTH, monthOfYear)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                set(Calendar.SECOND,0)
+                set(Calendar.MILLISECOND,0)
             }
 
             updateUiWithCalendarDate()
@@ -203,6 +205,8 @@ class AddEventActivity : AppCompatActivity() {
 
 
 
+        calendar.set(Calendar.SECOND,0)
+        calendar.set(Calendar.MILLISECOND,0)
 
         if (isEditing) {
             val event = eventEditing?.copy(
