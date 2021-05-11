@@ -2,6 +2,7 @@ package com.simpleplus.timecounter.activities
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: EventAdapter
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binder = ActivityMainBinding.inflate(layoutInflater)
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         startLaunchers()
         startAddActivity()
         initRecyclerView()
+        updateEventIfAppIsRunning()
     }
 
     private fun startLaunchers() {
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         eventViewModel.insert(event).join()
+                        AlertBroadcastReceiver.lastEventId = eventViewModel.lastId
                         if (event.isNotifying) setAlarm(event,eventViewModel.lastId)
                     }
                     Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
@@ -187,4 +191,15 @@ class MainActivity : AppCompatActivity() {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
 
     }
+
+    private fun updateEventIfAppIsRunning() {
+
+        AlertBroadcastReceiver.listener = {
+
+            eventViewModel.update(it.copy(isFinished = true))
+
+        }
+
+    }
+
 }
