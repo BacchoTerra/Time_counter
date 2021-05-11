@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -63,11 +62,10 @@ class MainActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         eventViewModel.insert(event).join()
-                        setAlarm(event,eventViewModel.lastId)
+                        if (event.isNotifying) setAlarm(event,eventViewModel.lastId)
                     }
                     Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
                         .show()
-                    Log.i("Porsche", "startLaunchers: ${event.timestamp}")
 
                 }
 
@@ -100,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-
     private fun startAddActivity() {
 
         binder.activityMainContentFabAdd.contentSurfaceAddFabAdd.setOnClickListener {
@@ -123,10 +120,10 @@ class MainActivity : AppCompatActivity() {
 
 
             autoUpdateEventsAndAdapter(it, adapter)
+            countOnAndOffEvents(it)
 
             if (it.isNotEmpty()) binder.activityMainTxtNoItensToShow.visibility =
                 View.GONE else binder.activityMainTxtNoItensToShow.visibility = View.VISIBLE
-
 
         })
 
@@ -143,6 +140,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.submitList(list)
+
+    }
+
+    private fun countOnAndOffEvents(list: List<Event>) {
+
+        var on = 0
+        var off = 0
+
+        for (e in list) {
+            if (e.isFinished) off++ else on++
+        }
+
+        binder.activityMainTxtInactiveTimers.text = getString(R.string.label_inactive_timers,off)
+        binder.activityMainTxtActiveTimers.text = getString(R.string.label_active_timers,on)
 
     }
 

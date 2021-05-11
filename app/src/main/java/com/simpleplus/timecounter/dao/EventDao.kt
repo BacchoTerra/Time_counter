@@ -19,7 +19,7 @@ interface EventDao {
     @Query ("DELETE FROM event_table")
     suspend fun deleteAll()
 
-    @Query ("SELECT * FROM event_table")
+    @Query ("SELECT * FROM event_table ORDER BY timestamp")
     fun selectAll():Flow<List<Event>>
 
 }

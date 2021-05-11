@@ -5,6 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import android.util.Log
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.database.TimeCounterDatabase
 import com.simpleplus.timecounter.repository.EventRepository

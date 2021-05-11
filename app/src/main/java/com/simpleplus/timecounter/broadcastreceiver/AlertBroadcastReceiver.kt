@@ -1,11 +1,8 @@
 package com.simpleplus.timecounter.broadcastreceiver
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.simpleplus.timecounter.R
@@ -21,9 +18,10 @@ class AlertBroadcastReceiver:BroadcastReceiver() {
     private lateinit var notificationManager:NotificationManagerCompat
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Toast.makeText(context,"deu",Toast.LENGTH_SHORT).show()
-        Log.i("Porsche", "onReceive: deu")
+        createNotification(context)
+    }
 
+    private fun createNotification(context: Context?) {
         notificationManager = NotificationManagerCompat.from(context!!)
 
         val notification = NotificationCompat.Builder(context,EventApplication.chanel1Id).apply {

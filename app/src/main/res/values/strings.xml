@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Time counter</string>
     <string name="label_active_timers">Timers ativos: %1$d</string>
-    <string name="label_inactive_timers">Timers ativos: %1$d</string>
+    <string name="label_inactive_timers">Timers inativos: %1$d</string>
     <string name="label_no_item_to_show">Nenhum item disponível..</string>
     <string name="content_desc_fab_add">Adicionar novo evento</string>
     <string name="label_event_title">Título do evento</string>
