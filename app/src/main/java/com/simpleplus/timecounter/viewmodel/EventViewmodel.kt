@@ -1,5 +1,6 @@
 package com.simpleplus.timecounter.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.repository.EventRepository
@@ -9,8 +10,11 @@ class EventViewModel(private val repo: EventRepository) : ViewModel() {
 
     val allEvents:LiveData<List<Event>> = repo.allEvents.asLiveData()
 
+    var lastId = 0L
+
     fun insert(event: Event) = viewModelScope.launch {
-        repo.insert(event)
+        lastId = repo.insert(event)
+
     }
 
     fun update(event: Event) = viewModelScope.launch {

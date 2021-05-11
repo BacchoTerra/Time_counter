@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
@@ -21,6 +22,7 @@ import com.simpleplus.timecounter.broadcastreceiver.AlertBroadcastReceiver
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.viewmodel.EventViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,8 +61,10 @@ class MainActivity : AppCompatActivity() {
                     val event: Event =
                         it.data?.extras?.getParcelable(getString(R.string.extra_key_event))!!
 
-                    eventViewModel.insert(event)
-                    setAlarm(event)
+                    lifecycleScope.launch {
+                        eventViewModel.insert(event).join()
+                        setAlarm(event,eventViewModel.lastId)
+                    }
                     Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
                         .show()
                     Log.i("Porsche", "startLaunchers: ${event.timestamp}")
@@ -79,8 +83,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (it.data?.extras?.getBoolean(getString(R.string.extra_key_delete_event))!!) {
                         eventViewModel.delete(event)
+                        cancelAlarm(event)
                     } else {
                         eventViewModel.update(event)
+                        updateAlarm(event)
+                        Log.i("PorscheMain", "startLaunchers: ${event.id}")
                         Snackbar.make(
                             binder.root,
                             R.string.label_event_updated,
@@ -139,10 +146,31 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setAlarm(event: Event) {
+    private fun setAlarm(event: Event,lastId:Long) {
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertBroadcastReceiver::class.java)
+        AlertBroadcastReceiver.event = event
+        val pendingIntent = PendingIntent.getBroadcast(this, lastId.toInt(), intent, 0)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
+
+    }
+
+    private fun cancelAlarm(event: Event) {
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertBroadcastReceiver::class.java)
+        AlertBroadcastReceiver.event = event
+        val pendingIntent = PendingIntent.getBroadcast(this, event.id, intent, 0)
+
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun updateAlarm(event:Event){
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertBroadcastReceiver::class.java)
+        AlertBroadcastReceiver.event = event
         val pendingIntent = PendingIntent.getBroadcast(this, event.id, intent, 0)
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)

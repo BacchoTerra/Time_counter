@@ -10,9 +10,9 @@ class EventRepository(private val eventDao:EventDao) {
     val allEvents:Flow<List<Event>> = eventDao.selectAll()
 
 
-    suspend fun insert(event: Event) {
+    suspend fun insert(event: Event):Long {
 
-        eventDao.insert(event)
+       return eventDao.insert(event)
 
     }
 
