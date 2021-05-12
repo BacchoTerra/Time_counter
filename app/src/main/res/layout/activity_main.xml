@@ -52,6 +52,7 @@
             android:id="@+id/activity_main_chipGroupMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:selectionRequired="true"
             app:singleSelection="true"
             app:singleLine="true" />
     </HorizontalScrollView>
@@ -69,6 +70,7 @@
             android:id="@+id/activity_main_chipGroupYear"
             android:layout_width="wrap_content"
             app:singleSelection="true"
+            app:selectionRequired="true"
             android:layout_height="wrap_content"
             app:singleLine="true" />
 
@@ -78,7 +80,7 @@
         android:id="@+id/activity_main_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"

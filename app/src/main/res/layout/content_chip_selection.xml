@@ -2,8 +2,11 @@
 <com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.MaterialComponents.Chip.Choice"
-    app:chipBackgroundColor="@color/selector_switch_track"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    app:chipBackgroundColor="@color/selector_chip_background"
+    android:textColor="@color/selector_chip_text"
+    android:layout_width="wrap_content"
+    android:clickable="true"
+    android:layout_height="wrap_content"
+    android:focusable="true">
 
 </com.google.android.material.chip.Chip>

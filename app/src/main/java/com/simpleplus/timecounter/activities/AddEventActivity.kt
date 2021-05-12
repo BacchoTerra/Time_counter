@@ -223,6 +223,8 @@ class AddEventActivity : AppCompatActivity() {
             eventName,
             timestamp = calendar.timeInMillis,
             isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
+            month =  calendar.get(Calendar.MONTH),
+            year = calendar.get(Calendar.YEAR)
         )
 
         sendResultBack(event,false)

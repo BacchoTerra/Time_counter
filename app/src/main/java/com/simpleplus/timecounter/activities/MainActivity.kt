@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
@@ -14,6 +15,7 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +28,7 @@ import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.utils.ChipFilterHelper
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
+import java.text.DateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             (application as EventApplication).eventRepo
         )
     }
+    private lateinit var allEvent: LiveData<List<Event>>
 
     //ActivityResult
     private lateinit var addEventLauncher: ActivityResultLauncher<Intent>
@@ -46,9 +50,6 @@ class MainActivity : AppCompatActivity() {
 
     //Recyclerview
     private lateinit var adapter: EventAdapter
-
-    //DateFilter calendar
-    val calendarDateFilter = Calendar.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         startLaunchers()
         initRecyclerView()
         updateEventIfAppIsRunning()
-
-        val x = ChipFilterHelper(this,binder.activityMainChipGroupMonth,binder.activityMainChipGroupYear)
 
     }
 
@@ -123,24 +122,80 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
+        allEvent = eventViewModel.selectAll()
 
-        eventViewModel.allEvents.observe(this, {
-            autoUpdateEventsAndAdapter(it, adapter)
+        submitListToAdapter()
+        handleChipsFilter()
+    }
+
+    private fun submitListToAdapter() {
+
+        allEvent.observe(this, {
+
+            val currentTime = System.currentTimeMillis()
+
+            for (event in it) {
+                if (!event.isFinished && event.timestamp <= currentTime) {
+                    eventViewModel.update(event.copy(isFinished = true))
+                }
+            }
+
+
+            adapter.submitList(it)
+
         })
 
     }
 
-    private fun autoUpdateEventsAndAdapter(list: List<Event>, adapter: EventAdapter) {
+    private fun handleChipsFilter() {
 
-        val currentTime = System.currentTimeMillis()
+        val chipHelper = ChipFilterHelper(
+            this,
+            binder.activityMainChipGroupMonth,
+            binder.activityMainChipGroupYear
+        )
 
-        for (event in list) {
-            if (!event.isFinished && event.timestamp <= currentTime) {
-                eventViewModel.update(event.copy(isFinished = true))
+        chipHelper.dateSelectionListener = { month: Int, year: Int ->
+
+            when {
+
+                month == ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
+                    allEvent = eventViewModel.selectAll()
+                    submitListToAdapter()
+                }
+
+                month != ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
+                    allEvent = eventViewModel.selectAllFromMonth(month)
+                    submitListToAdapter()
+
+                }
+
+                month == ChipFilterHelper.NO_SELECTION && year != ChipFilterHelper.NO_SELECTION -> {
+
+                    allEvent = eventViewModel.selectAllFromYear(year)
+                    submitListToAdapter()
+
+                }
+
+                year == ChipFilterHelper.INFINITE_YEAR -> {
+
+                    allEvent = eventViewModel.selectAllFromBeyond(chipHelper.beyondYears)
+                    submitListToAdapter()
+
+                }
+
+                else -> {
+
+                    allEvent = eventViewModel.selectAllFromMonthAndYear(month, year)
+                    submitListToAdapter()
+
+                }
+
+
             }
-        }
 
-        adapter.submitList(list)
+
+        }
 
     }
 

@@ -27,4 +27,5 @@
 
     <color name="text_finished_color">#9F9F9F</color>
     <color name="dividerColor">#8F8F8F</color>
+    <color name="disabledColor">#8A8A8A</color>
 </resources>

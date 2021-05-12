@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 
 class EventViewModel(private val repo: EventRepository) : ViewModel() {
 
-    val allEvents:LiveData<List<Event>> = repo.allEvents.asLiveData()
 
     var lastId = 0L
 
@@ -29,7 +28,37 @@ class EventViewModel(private val repo: EventRepository) : ViewModel() {
         repo.deleteAll()
     }
 
-    class EventViewModelFactory(private val repo:EventRepository): ViewModelProvider.Factory {
+    fun selectAll(): LiveData<List<Event>> {
+
+        return repo.selectAllEvent().asLiveData()
+
+    }
+
+    fun selectAllFromMonth(month: Int): LiveData<List<Event>> {
+
+        return repo.selectAllEventFromMonth(month).asLiveData()
+    }
+
+    fun selectAllFromYear(year: Int): LiveData<List<Event>> {
+
+        return repo.selectAllEventFromYear(year).asLiveData()
+
+    }
+
+    fun selectAllFromMonthAndYear(month:Int,year:Int) :LiveData<List<Event>> {
+
+        return repo.selectAllEventFromMonthAndYear(month,year).asLiveData()
+
+    }
+
+    fun selectAllFromBeyond(yearPlus:Int) :LiveData<List<Event>> {
+
+        return repo.selectAllEventFromBeyond(yearPlus).asLiveData()
+
+    }
+
+
+    class EventViewModelFactory(private val repo: EventRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
             if (modelClass.isAssignableFrom(EventViewModel::class.java)) {

@@ -13,5 +13,7 @@ data class Event(
     val timestamp: Long,
     val isFinished:Boolean = false,
     val isNotifying:Boolean = true,
+    val month:Int,
+    val year:Int
 
 ) : Parcelable

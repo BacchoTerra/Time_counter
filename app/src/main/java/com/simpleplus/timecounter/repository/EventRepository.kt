@@ -4,10 +4,9 @@ import com.simpleplus.timecounter.dao.EventDao
 import com.simpleplus.timecounter.database.TimeCounterDatabase
 import com.simpleplus.timecounter.model.Event
 import kotlinx.coroutines.flow.Flow
+import java.time.Month
 
 class EventRepository(private val eventDao:EventDao) {
-
-    val allEvents:Flow<List<Event>> = eventDao.selectAll()
 
 
     suspend fun insert(event: Event):Long {
@@ -31,6 +30,39 @@ class EventRepository(private val eventDao:EventDao) {
     suspend fun deleteAll() {
 
         eventDao.deleteAll()
+
+    }
+
+    fun selectAllEvent ():Flow<List<Event>> {
+
+        return eventDao.selectAll()
+
+    }
+
+
+    fun selectAllEventFromMonth (month: Int):Flow<List<Event>> {
+
+        return eventDao.selectAllFromMonth(month)
+
+    }
+
+
+    fun selectAllEventFromYear (year:Int):Flow<List<Event>> {
+
+        return eventDao.selectAllFromYear(year)
+
+    }
+
+
+    fun selectAllEventFromMonthAndYear (month: Int,year: Int):Flow<List<Event>> {
+
+        return eventDao.selectAllFromMonthAndYear(month,year)
+
+    }
+
+    fun selectAllEventFromBeyond (yearPlus:Int):Flow<List<Event>> {
+
+        return eventDao.selectAllFromBeyond(yearPlus)
 
     }
 
