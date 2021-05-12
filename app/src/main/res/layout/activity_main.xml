@@ -40,17 +40,39 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_main_dateFilterRecyclerView"
+    <HorizontalScrollView
+        android:id="@+id/activity_main_horizontalScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_appBar"
-        tools:listitem="@layout/row_date_filter" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_appBar">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/activity_main_chipGroupMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            app:singleLine="true" />
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/activity_main_horizontalScrollView2"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/activity_main_chipGroupYear"
+            android:layout_width="wrap_content"
+            app:singleSelection="true"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_main_recyclerView"
@@ -60,16 +82,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_dateFilterRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView2"
         tools:listitem="@layout/row_open_events" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:background="@drawable/shape_round_view"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_main_dateFilterRecyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/activity_main_dateFilterRecyclerView"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_dateFilterRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

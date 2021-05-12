@@ -2,7 +2,6 @@ package com.simpleplus.timecounter.activities
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -12,7 +11,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -25,7 +23,7 @@ import com.simpleplus.timecounter.application.EventApplication
 import com.simpleplus.timecounter.broadcastreceiver.AlertBroadcastReceiver
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.model.Event
-import com.simpleplus.timecounter.utils.DateFilterHelper
+import com.simpleplus.timecounter.utils.ChipFilterHelper
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -60,9 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         initToolbar()
         startLaunchers()
-        buildDateFilterRecyclerView()
         initRecyclerView()
         updateEventIfAppIsRunning()
+
+        val x = ChipFilterHelper(this,binder.activityMainChipGroupMonth,binder.activityMainChipGroupYear)
+
     }
 
     private fun initToolbar() {
@@ -115,33 +115,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
-    }
-
-    private fun buildDateFilterRecyclerView() {
-
-        val helper = DateFilterHelper(this, binder.activityMainDateFilterRecyclerView,getScreenWidth())
-        helper.buildRecyclerView(2021)
-    }
-
-    private fun getScreenWidth(): Int {
-
-        var screenWidth = 0
-        val displayMetric = DisplayMetrics()
-
-        screenWidth = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
-            windowManager.defaultDisplay.getMetrics(displayMetric)
-            displayMetric.widthPixels
-        } else {
-            this.display?.getRealMetrics(displayMetric)
-            displayMetric.widthPixels
-        }
-
-        Log.i("Porsche", "getScreenWidth: $screenWidth")
-        Log.i("Porsche", "getScreenWidth: ${screenWidth / 2}")
-        Log.i("Porsche", "getScreenWidth: ${screenWidth /2 - screenWidth/2}")
-        return screenWidth
-
     }
 
     private fun initRecyclerView() {

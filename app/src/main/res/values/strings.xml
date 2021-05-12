@@ -30,4 +30,5 @@
     <string name="label_event_updated">Evento atualizado</string>
     <string name="label_add">Adicionar</string>
     <string name="label_info">Informações</string>
+    <string name="label_current_year_plus">%1$d +</string>
 </resources>
