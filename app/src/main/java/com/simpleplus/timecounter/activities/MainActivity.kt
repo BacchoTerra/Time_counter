@@ -5,9 +5,13 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,8 +25,10 @@ import com.simpleplus.timecounter.application.EventApplication
 import com.simpleplus.timecounter.broadcastreceiver.AlertBroadcastReceiver
 import com.simpleplus.timecounter.databinding.ActivityMainBinding
 import com.simpleplus.timecounter.model.Event
+import com.simpleplus.timecounter.utils.DateFilterHelper
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     //Recyclerview
     private lateinit var adapter: EventAdapter
 
+    //DateFilter calendar
+    val calendarDateFilter = Calendar.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +58,17 @@ class MainActivity : AppCompatActivity() {
         binder = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
+        initToolbar()
         startLaunchers()
-        startAddActivity()
+        buildDateFilterRecyclerView()
         initRecyclerView()
         updateEventIfAppIsRunning()
+    }
+
+    private fun initToolbar() {
+
+        setSupportActionBar(binder.activityMainToolbar)
+
     }
 
     private fun startLaunchers() {
@@ -66,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         eventViewModel.insert(event).join()
                         AlertBroadcastReceiver.lastEventId = eventViewModel.lastId
-                        if (event.isNotifying) setAlarm(event,eventViewModel.lastId)
+                        if (event.isNotifying) setAlarm(event, eventViewModel.lastId)
                     }
                     Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
                         .show()
@@ -102,14 +117,30 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun startAddActivity() {
+    private fun buildDateFilterRecyclerView() {
 
-        binder.activityMainContentFabAdd.contentSurfaceAddFabAdd.setOnClickListener {
+        val helper = DateFilterHelper(this, binder.activityMainDateFilterRecyclerView,getScreenWidth())
+        helper.buildRecyclerView(2021)
+    }
 
-            val intent = Intent(this, AddEventActivity::class.java)
-            addEventLauncher.launch(intent)
+    private fun getScreenWidth(): Int {
 
+        var screenWidth = 0
+        val displayMetric = DisplayMetrics()
+
+        screenWidth = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+
+            windowManager.defaultDisplay.getMetrics(displayMetric)
+            displayMetric.widthPixels
+        } else {
+            this.display?.getRealMetrics(displayMetric)
+            displayMetric.widthPixels
         }
+
+        Log.i("Porsche", "getScreenWidth: $screenWidth")
+        Log.i("Porsche", "getScreenWidth: ${screenWidth / 2}")
+        Log.i("Porsche", "getScreenWidth: ${screenWidth /2 - screenWidth/2}")
+        return screenWidth
 
     }
 
@@ -121,14 +152,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         eventViewModel.allEvents.observe(this, {
-
-
             autoUpdateEventsAndAdapter(it, adapter)
-            countOnAndOffEvents(it)
-
-            if (it.isNotEmpty()) binder.activityMainTxtNoItensToShow.visibility =
-                View.GONE else binder.activityMainTxtNoItensToShow.visibility = View.VISIBLE
-
         })
 
     }
@@ -147,21 +171,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun countOnAndOffEvents(list: List<Event>) {
-
-        var on = 0
-        var off = 0
-
-        for (e in list) {
-            if (e.isFinished) off++ else on++
-        }
-
-        binder.activityMainTxtInactiveTimers.text = getString(R.string.label_inactive_timers,off)
-        binder.activityMainTxtActiveTimers.text = getString(R.string.label_active_timers,on)
-
-    }
-
-    private fun setAlarm(event: Event,lastId:Long) {
+    private fun setAlarm(event: Event, lastId: Long) {
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertBroadcastReceiver::class.java)
@@ -181,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         alarmManager.cancel(pendingIntent)
     }
 
-    private fun updateAlarm(event:Event){
+    private fun updateAlarm(event: Event) {
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertBroadcastReceiver::class.java)
@@ -200,6 +210,31 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+
+            R.id.main_menu_add -> addEventLauncher.launch(
+                Intent(
+                    this,
+                    AddEventActivity::class.java
+                )
+            )
+
+            R.id.main_menu_info -> {
+                Log.i("Simple porsche", "onOptionsItemSelected: info")
+            }
+
+        }
+
+        return true
     }
 
 }

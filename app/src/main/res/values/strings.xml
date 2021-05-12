@@ -28,4 +28,6 @@
     <string name="label_cancel">Cancelar</string>
     <string name="label_event_added">Evento adicionado</string>
     <string name="label_event_updated">Evento atualizado</string>
+    <string name="label_add">Adicionar</string>
+    <string name="label_info">Informações</string>
 </resources>
