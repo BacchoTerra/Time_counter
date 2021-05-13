@@ -50,7 +50,14 @@ class ChipFilterHelper(
 
     var dateSelectionListener: ((Int, Int) -> Unit)? = null
 
+    //Chips ID
+    private var chipsId = 1
+
+
     init {
+
+        chipGroupMonth.removeAllViews()
+        chipGroupYear.removeAllViews()
 
         buildMonthGroup()
         buildYearGroup()
@@ -75,14 +82,19 @@ class ChipFilterHelper(
                     calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
             }
 
+            chip.id = chipsId
             chipGroupMonth.addView(chip)
+            Log.i("Porsche", "month id: : ${chip.id}")
+            chipsId +=1
         }
 
     }
 
     private fun buildYearGroup() {
 
+
         for (year in yearsArray) {
+
 
             val chip = LayoutInflater.from(context)
                 .inflate(R.layout.content_chip_selection, chipGroupYear, false) as Chip
@@ -97,9 +109,10 @@ class ChipFilterHelper(
                 else -> chip.text = year.toString()
 
             }
-
+            chip.id = chipsId
             chipGroupYear.addView(chip)
-
+            Log.i("Porsche", "yead id: : ${chip.id}")
+            chipsId +=1
         }
 
     }
@@ -132,7 +145,7 @@ class ChipFilterHelper(
             Log.i("Porsche", "getSelectedDate: $yearSelected")
 
 
-                    dateSelectionListener?.invoke(monthSelected, yearSelected)
+            dateSelectionListener?.invoke(monthSelected, yearSelected)
 
             if (yearSelected == yearsArray[yearsArray.lastIndex]) disableAllChips() else enableAllChips()
 
@@ -140,12 +153,12 @@ class ChipFilterHelper(
 
     }
 
-    private fun disableAllChips () {
+    private fun disableAllChips() {
 
         val chip1 = chipGroupMonth[0] as Chip
         chip1.isChecked = true
 
-        for (i in 0 until chipGroupMonth.childCount){
+        for (i in 0 until chipGroupMonth.childCount) {
             val chip = chipGroupMonth[i] as Chip
             chip.isEnabled = false
 
@@ -159,7 +172,7 @@ class ChipFilterHelper(
         val chip1 = chipGroupMonth[0] as Chip
         if (!chip1.isEnabled) {
 
-            for (i in 0 until chipGroupMonth.childCount){
+            for (i in 0 until chipGroupMonth.childCount) {
                 val chip = chipGroupMonth[i] as Chip
                 chip.isEnabled = true
 
