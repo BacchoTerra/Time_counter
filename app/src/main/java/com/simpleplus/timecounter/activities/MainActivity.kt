@@ -123,6 +123,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         allEvent = eventViewModel.selectAll()
 
+        val animator: ItemAnimator = recyclerView.itemAnimator!!
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+
         submitListToAdapter()
         handleChipsFilter()
     }

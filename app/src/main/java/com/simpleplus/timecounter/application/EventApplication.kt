@@ -26,6 +26,7 @@ class EventApplication : Application() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
 
             val channel1 = NotificationChannel(chanel1Id,getString(R.string.app_name),NotificationManager.IMPORTANCE_HIGH)
+            channel1.enableVibration(true)
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel1)
 
