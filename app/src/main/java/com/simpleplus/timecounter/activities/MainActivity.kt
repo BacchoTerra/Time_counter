@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -144,6 +145,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            if (it.isEmpty()) binder.activityMainTxtNoItem.visibility = View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
+
 
             adapter.submitList(it)
 
@@ -269,7 +272,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             R.id.main_menu_info -> {
-                Log.i("Simple porsche", "onOptionsItemSelected: info")
+                startActivity(Intent(this,AboutActivity::class.java))
             }
 
         }

@@ -33,4 +33,7 @@
     <string name="label_current_year_plus">%1$d +</string>
     <string name="label_none">Nenhum</string>
     <string name="notification_content">Chegou o momento!</string>
+    <string name="label_email">E-mail: simpleplus.dev@hotmail.com</string>
+    <string name="content_description_send_email">Enviar email</string>
+    <string name="dev_email">simpleplus.dev@hotmail.com</string>
 </resources>

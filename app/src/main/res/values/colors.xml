@@ -28,4 +28,15 @@
     <color name="text_finished_color">#9F9F9F</color>
     <color name="dividerColor">#8F8F8F</color>
     <color name="disabledColor">#8A8A8A</color>
+
+    <color name="chipBackGroundChecked">@color/primaryColor</color>
+    <color name="chipBackGroundUnchecked">@color/surfaceColor</color>
+    <color name="chipBackGroundDisabled">@color/disabledColor</color>
+    <color name="chipTextChecked">@color/onPrimary</color>
+    <color name="chipTextUnchecked">@color/onSurface</color>
+
+    <color name="brandSymbolColor">@color/primaryColor</color>
+    <color name="fabColor">@color/primaryColor</color>
+
+
 </resources>

@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimeCounter">
+        <activity android:name=".activities.AboutActivity"/>
         <activity
             android:name=".activities.AddEventActivity"
             android:parentActivityName=".activities.MainActivity" />
@@ -25,7 +26,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <receiver android:name=".broadcastreceiver.AlertBroadcastReceiver"/>
+        <receiver android:name=".broadcastreceiver.AlertBroadcastReceiver" />
     </application>
 
 </manifest>
