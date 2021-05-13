@@ -4,20 +4,19 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
@@ -28,8 +27,8 @@ import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.utils.ChipFilterHelper
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -160,33 +159,41 @@ class MainActivity : AppCompatActivity() {
             when {
 
                 month == ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
+                    allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAll()
+                    Log.i("Porsche", "handleChipsFilter: NO SELECTION")
                     submitListToAdapter()
                 }
 
                 month != ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
+                    allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromMonth(month)
+                    Log.i("Porsche", "handleChipsFilter: MONTH")
                     submitListToAdapter()
 
                 }
 
-                month == ChipFilterHelper.NO_SELECTION && year != ChipFilterHelper.NO_SELECTION -> {
+                month == ChipFilterHelper.NO_SELECTION && year != ChipFilterHelper.NO_SELECTION && year != ChipFilterHelper.INFINITE_YEAR -> {
 
+                    allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromYear(year)
+                    Log.i("Porsche", "handleChipsFilter: YEAR")
                     submitListToAdapter()
 
                 }
 
                 year == ChipFilterHelper.INFINITE_YEAR -> {
-
+                    allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromBeyond(chipHelper.beyondYears)
+                    Log.i("Porsche", "handleChipsFilter: INFINITE YEAR")
                     submitListToAdapter()
 
                 }
 
                 else -> {
-
+                    allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromMonthAndYear(month, year)
+                    Log.i("Porsche", "handleChipsFilter: ELSE")
                     submitListToAdapter()
 
                 }

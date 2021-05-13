@@ -115,6 +115,8 @@ class ChipFilterHelper(
 
             dateSelectionListener?.invoke(monthSelected, yearSelected)
 
+            Log.i("Porsche", "getSelectedDate: $monthSelected")
+
         }
 
         chipGroupYear.setOnCheckedChangeListener { group, checkedId ->
@@ -123,12 +125,14 @@ class ChipFilterHelper(
             yearSelected = when (checkedId) {
 
                 0 -> yearsArray.first()
-                (yearsArray.size - 1) - YEAR_CORRECTION -> yearsArray.lastIndex
+                (yearsArray.size - 1) - YEAR_CORRECTION -> yearsArray[yearsArray.lastIndex]
                 else -> yearsArray[checkedId - YEAR_CORRECTION]
 
             }
+            Log.i("Porsche", "getSelectedDate: $yearSelected")
 
-            dateSelectionListener?.invoke(monthSelected, yearSelected)
+
+                    dateSelectionListener?.invoke(monthSelected, yearSelected)
 
             if (yearSelected == yearsArray[yearsArray.lastIndex]) disableAllChips() else enableAllChips()
 
