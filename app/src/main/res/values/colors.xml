@@ -8,14 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primaryColor">#000000</color>
-    <color name="backgroundColor">#FFFFFF</color>
-    <color name="surfaceColor">#f4f4f4</color>
-    <color name="onPrimary">#ffffff</color>
-    <color name="onBackground">#000000</color>
-    <color name="onSurface">#000000</color>
+    <color name="primaryColor">#246EE9</color>
+    <color name="darkPrimaryColor">#003A9A</color>
+    <color name="backgroundColor">#F3F8FF</color>
+    <color name="surfaceColor">#B5BDCA</color>
+    <color name="onPrimary">#EFF5FF</color>
+    <color name="onBackground">#000B1D</color>
+    <color name="onSurface">#203558</color>
     <color name="errorColor">#B00020</color>
     <color name="successColor">#219653</color>
+    <color name="iconTint">@color/onPrimary</color>
     <color name="white_60">#99FFFFFF</color>
     <color name="white_20">#33FFFFFF</color>
 
@@ -29,9 +31,10 @@
     <color name="dividerColor">#8F8F8F</color>
     <color name="disabledColor">#8A8A8A</color>
 
-    <color name="chipBackGroundChecked">@color/primaryColor</color>
-    <color name="chipBackGroundUnchecked">@color/surfaceColor</color>
+    <color name="chipBackGroundChecked">#5990EC</color>
+    <color name="chipBackGroundUnchecked">#C7D7F1</color>
     <color name="chipBackGroundDisabled">@color/disabledColor</color>
+
     <color name="chipTextChecked">@color/onPrimary</color>
     <color name="chipTextUnchecked">@color/onSurface</color>
 

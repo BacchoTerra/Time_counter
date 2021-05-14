@@ -2,30 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    android:background="@color/primaryColor">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/margin_16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/margin_16dp" />
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/activity_main_appBar"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="@dimen/elevation_0dp"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,45 +20,76 @@
             android:id="@+id/activity_main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/backgroundColor"
-            app:title="Time counter"
-            app:titleTextAppearance="@style/FancyToolbarTitle" />
+            app:title="@null" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <TextView
+        android:id="@+id/activity_main_txtDisplayHour"
+        style="@style/TextStyleRobotoMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:text="12:34"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+        android:textColor="@color/onPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <TextView
+        android:id="@+id/activity_main_txtDisplayDate"
+        style="@style/TextStyleRobotoRegular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_16dp"
+        android:text="Sexta, 22 de dezembro"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="@+id/activity_main_txtDisplayHour"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_txtDisplayHour"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_txtDisplayHour" />
+
     <HorizontalScrollView
+        android:layout_marginHorizontal="16dp"
         android:id="@+id/activity_main_horizontalScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_appBar">
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_txtDisplayDate">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/activity_main_chipGroupMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:selectionRequired="true"
-            app:singleSelection="true"
-            app:singleLine="true" />
+            app:singleLine="true"
+            app:singleSelection="true" />
     </HorizontalScrollView>
 
     <HorizontalScrollView
         android:id="@+id/activity_main_horizontalScrollView2"
         android:layout_width="0dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        android:layout_marginTop="@dimen/margin_8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/activity_main_chipGroupYear"
             android:layout_width="wrap_content"
-            app:singleSelection="true"
-            app:selectionRequired="true"
             android:layout_height="wrap_content"
-            app:singleLine="true" />
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true" />
 
     </HorizontalScrollView>
 
@@ -80,24 +97,96 @@
         android:id="@+id/activity_main_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_round_recycler_view"
+        android:padding="@dimen/padding_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView2"
         tools:listitem="@layout/row_open_events" />
 
-    <TextView
-        android:id="@+id/activity_main_txtNoItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_no_item_to_show"
-        style="@style/TextStyleRobotoLight"
-        android:textSize="@dimen/text_size_16"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView2"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--
+
+       <com.google.android.material.appbar.AppBarLayout
+           android:id="@+id/activity_main_appBar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:elevation="@dimen/elevation_0dp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent">
+
+           <androidx.appcompat.widget.Toolbar
+               android:id="@+id/activity_main_toolbar"
+               android:layout_width="match_parent"
+               android:layout_height="?attr/actionBarSize"
+               android:background="@color/backgroundColor"
+               app:title="Time counter"
+               app:titleTextAppearance="@style/FancyToolbarTitle" />
+
+       </com.google.android.material.appbar.AppBarLayout>
+
+       <HorizontalScrollView
+           android:id="@+id/activity_main_horizontalScrollView"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           app:layout_constraintEnd_toStartOf="@+id/guideline4"
+           app:layout_constraintStart_toStartOf="@+id/guideline3"
+           app:layout_constraintTop_toBottomOf="@+id/activity_main_appBar">
+
+           <com.google.android.material.chip.ChipGroup
+               android:id="@+id/activity_main_chipGroupMonth"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:selectionRequired="true"
+               app:singleSelection="true"
+               app:singleLine="true" />
+       </HorizontalScrollView>
+
+       <HorizontalScrollView
+           android:id="@+id/activity_main_horizontalScrollView2"
+           android:layout_width="0dp"
+           android:layout_marginTop="@dimen/margin_8dp"
+           android:layout_height="wrap_content"
+           app:layout_constraintEnd_toStartOf="@+id/guideline4"
+           app:layout_constraintStart_toStartOf="@+id/guideline3"
+           app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView">
+
+           <com.google.android.material.chip.ChipGroup
+               android:id="@+id/activity_main_chipGroupYear"
+               android:layout_width="wrap_content"
+               app:singleSelection="true"
+               app:selectionRequired="true"
+               android:layout_height="wrap_content"
+               app:singleLine="true" />
+
+       </HorizontalScrollView>
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/activity_main_recyclerView"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:layout_marginTop="@dimen/margin_8dp"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toStartOf="@+id/guideline4"
+           app:layout_constraintStart_toStartOf="@+id/guideline3"
+           app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView2"
+           tools:listitem="@layout/row_open_events" />
+
+       <TextView
+           android:id="@+id/activity_main_txtNoItem"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/label_no_item_to_show"
+           style="@style/TextStyleRobotoLight"
+           android:textSize="@dimen/text_size_16"
+           android:visibility="gone"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toStartOf="@+id/guideline4"
+           app:layout_constraintStart_toStartOf="@+id/guideline3"
+           app:layout_constraintTop_toBottomOf="@+id/activity_main_horizontalScrollView2"/>
+
+           -->

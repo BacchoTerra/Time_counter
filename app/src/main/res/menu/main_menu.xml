@@ -3,15 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/main_menu_info"
-        app:showAsAction="ifRoom"
-        android:title="@string/label_info"
-        android:icon="@drawable/ic_baseline_info_24"/>
+        android:id="@+id/main_menu_add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/label_add"
+        app:iconTint="@color/iconTint"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/main_menu_add"
-        android:title="@string/label_add"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_add_24"/>
+        app:showAsAction="ifRoom"
+        android:id="@+id/main_menu_info"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/label_info"
+        app:iconTint="@color/iconTint"/>
+
 
 </menu>
+
+

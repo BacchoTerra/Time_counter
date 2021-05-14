@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,12 +35,16 @@ class EventAdapter(
         const val TYPE_FINISHED = 1
     }
 
+    //Date formatter
+    val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
     class OpenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val root: ViewGroup = view.findViewById(R.id.row_open_events_root)
         val txtEventName: TextView = view.findViewById(R.id.row_open_events_txtEventName)
         val txtDefinedDate: TextView = view.findViewById(R.id.row_open_events_txtDefinedDate)
         val txtRemainingTime: TextView = view.findViewById(R.id.row_open_events_txtRemainingTime)
+        val switchAlarm : SwitchCompat = view.findViewById(R.id.row_open_events_switchAlarm)
 
 
     }
@@ -128,6 +133,8 @@ class EventAdapter(
             }))
         }
 
+        holder.switchAlarm.isChecked = event.isNotifying
+
     }
 
     private fun bindFinishedViewHolder(event: Event, holder: FinishedViewHolder) {
@@ -142,8 +149,6 @@ class EventAdapter(
     }
 
     private fun formatDate(event: Event): String {
-
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return sdf.format(event.timestamp)
 
     }

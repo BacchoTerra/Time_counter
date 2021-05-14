@@ -4,14 +4,14 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.databinding.ActivityAddEditEventBinding
 import com.simpleplus.timecounter.model.Event
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddEventActivity : AppCompatActivity() {
@@ -24,7 +24,10 @@ class AddEventActivity : AppCompatActivity() {
     private var isEditing = false
 
     //Timestamp from materialDatePicker
-    private val calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY,0)
+        set(Calendar.MINUTE,0)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +35,79 @@ class AddEventActivity : AppCompatActivity() {
         setContentView(binder.root)
 
         retrieveEventIfEditing()
-        initToolbar()
+        handlePickersVisibility()
         customizePickers()
         updateUiWithCalendarDate()
 
-        enableSaveButton()
 
-        binder.activityAddEventBtnSave.setOnClickListener {
-            createEvent()
+        binder.activityAddEventTxtSave.setOnClickListener {
+
+            if (binder.activityAddEventEditEventTitle.text.isEmpty()){
+                binder.activityAddEventEditEventTitle.error = "*"
+            }else{
+                createEvent()
+            }
+
         }
 
-        binder.activityAddEditEventTxtDelete.setOnClickListener{
-            initDeleteDialog()
+
+    }
+
+    private fun handlePickersVisibility() {
+        binder.activityAddEventCardDate.setOnClickListener {
+
+
+            changePickersVisibility(
+                binder.activityAddEventDatePicker,
+                binder.activityAddEventTimePicker
+            )
+
         }
+
+        binder.activityAddEventCardTime.setOnClickListener {
+            changePickersVisibility(
+                binder.activityAddEventTimePicker,
+                binder.activityAddEventDatePicker
+            )
+
+        }
+
+
+    }
+
+    private fun changePickersVisibility(viewClicked: View, otherView: View) {
+        Log.i("fusca", "changePickersVisibility: ops")
+
+        when {
+            viewClicked.visibility == View.GONE && otherView.visibility == View.GONE -> {
+                viewClicked.visibility = View.VISIBLE
+                Log.i("fusca", "changePickersVisibility: 1")
+            }
+            viewClicked.visibility == View.GONE && otherView.visibility == View.VISIBLE -> {
+                otherView.visibility = View.GONE
+                viewClicked.visibility = View.VISIBLE
+                Log.i("fusca", "changePickersVisibility: 2")
+
+            }
+            viewClicked.visibility == View.VISIBLE && otherView.visibility == View.GONE -> {
+                viewClicked.visibility = View.GONE
+                Log.i("fusca", "changePickersVisibility: 3")
+            }
+            else -> Log.i("fusca", "changePickersVisibility: caiu no else")
+
+
+        }
+
+    }
+
+    private fun customizePickers() {
+
+        binder.activityAddEventTimePicker.setIs24HourView(true)
+        binder.activityAddEventDatePicker.minDate = calendar.timeInMillis
+
+        bindPickerListeners()
+
+
     }
 
     private fun initDeleteDialog() {
@@ -52,7 +115,7 @@ class AddEventActivity : AppCompatActivity() {
             setTitle(R.string.label_delete_event)
             setMessage(R.string.label_permanent_action)
             setPositiveButton(R.string.label_delete) { _: DialogInterface, _: Int ->
-                sendResultBack(eventEditing!!,true)
+                sendResultBack(eventEditing!!, true)
             }
             setNegativeButton(R.string.label_cancel) { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
@@ -78,6 +141,7 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun bindEditingValues() {
 
+        /*
         binder.activityAddEventEditEventTitle.setText(eventEditing?.eventName)
         calendar.timeInMillis = eventEditing?.timestamp!!
         binder.activityAddEventBtnSave.isEnabled = true
@@ -97,23 +161,8 @@ class AddEventActivity : AppCompatActivity() {
         binder.activityAddEditEventTxtDelete.visibility = View.VISIBLE
 
         updateUiWithCalendarDate()
-    }
 
-    private fun initToolbar() {
-        val toolbar = binder.activityAddEditEventToolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = null
-
-    }
-
-    private fun customizePickers() {
-
-        binder.activityAddEventTimePicker.setIs24HourView(true)
-
-        bindPickerListeners()
-
-
+         */
     }
 
     private fun bindPickerListeners() {
@@ -128,8 +177,8 @@ class AddEventActivity : AppCompatActivity() {
                 set(Calendar.YEAR, year)
                 set(Calendar.MONTH, monthOfYear)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                set(Calendar.SECOND,0)
-                set(Calendar.MILLISECOND,0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
             }
 
             updateUiWithCalendarDate()
@@ -158,43 +207,11 @@ class AddEventActivity : AppCompatActivity() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        binder.activityAddEventTxtDefinedDateTime.text = getString(
-            R.string.label_dayweek_daymonth_month_year,
-            weekDayDN,
-            dayOfMonth,
-            monthDN,
-            year
-        )
 
-        binder.activityAddEventTxtHourMinute.text =
-            getString(R.string.label_hour_minute, hour, minute)
+        binder.activityAddEventContentDatePicker.contentDatePickerTxtDate.text = getString(R.string.label_dayOfMonth_month_year,dayOfMonth,monthDN,year)
 
-    }
 
-    private fun enableSaveButton() {
-
-        binder.activityAddEventEditEventTitle.addTextChangedListener(
-            object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                    binder.activityAddEventBtnSave.isEnabled =
-                        count > 0
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-
+        binder.activityAddEventContentTimePicker.contentTimePickerTxtTime.text = SimpleDateFormat("HH:mm",Locale.getDefault()).format(calendar.timeInMillis)
 
     }
 
@@ -228,11 +245,9 @@ class AddEventActivity : AppCompatActivity() {
         )
 
         sendResultBack(event,false)
-
-
     }
 
-    private fun sendResultBack(event: Event,shouldDeleteIt:Boolean) {
+    private fun sendResultBack(event: Event, shouldDeleteIt: Boolean) {
 
         val intent = Intent()
         intent.putExtra(getString(R.string.extra_key_event), event)

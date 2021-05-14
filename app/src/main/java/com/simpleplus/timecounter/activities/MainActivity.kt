@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
@@ -28,7 +30,9 @@ import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.utils.ChipFilterHelper
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binder.root)
 
         initToolbar()
+        displayHeaderClock()
         startLaunchers()
         initRecyclerView()
         updateEventIfAppIsRunning()
@@ -67,6 +72,24 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
 
         setSupportActionBar(binder.activityMainToolbar)
+        supportActionBar?.title = null
+    }
+
+    private fun displayHeaderClock() {
+
+        val calendar = Calendar.getInstance()
+
+        var sdf = SimpleDateFormat("kk:mm", Locale.getDefault())
+        binder.activityMainTxtDisplayHour.text = sdf.format(System.currentTimeMillis())
+
+        val weekDayDN =
+            calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        val monthDN = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        binder.activityMainTxtDisplayDate.text = getString(R.string.label_week_day_month,weekDayDN,dayOfMonth,monthDN)
+
+
 
     }
 
@@ -145,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            if (it.isEmpty()) binder.activityMainTxtNoItem.visibility = View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
+            // if (it.isEmpty()) binder.activityMainTxtNoItem.visibility = View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
 
 
             adapter.submitList(it)
