@@ -3,13 +3,18 @@ package com.simpleplus.timecounter.adapter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -36,15 +41,19 @@ class EventAdapter(
     }
 
     //Date formatter
-    val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    private val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    //Listener for switch
+    var switchListener :((Boolean,Event) -> Unit)? = null
 
     class OpenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val root: ViewGroup = view.findViewById(R.id.row_open_events_root)
-        val txtEventName: TextView = view.findViewById(R.id.row_open_events_txtEventName)
-        val txtDefinedDate: TextView = view.findViewById(R.id.row_open_events_txtDefinedDate)
+        val txtEventName: TextView = view.findViewById(R.id.row_finished_events_txtEventName)
+        val txtDefinedDate: TextView = view.findViewById(R.id.row_finished_events_txtDefinedDate)
         val txtRemainingTime: TextView = view.findViewById(R.id.row_open_events_txtRemainingTime)
         val switchAlarm : SwitchCompat = view.findViewById(R.id.row_open_events_switchAlarm)
+        val imageAlarm : ImageView = view.findViewById(R.id.row_open_events_imageAlarm)
 
 
     }
@@ -53,11 +62,7 @@ class EventAdapter(
 
         val txtEventName: TextView = view.findViewById(R.id.row_finished_events_txtEventName)
         val txtDefinedDate: TextView = view.findViewById(R.id.row_finished_events_txtDefinedDate)
-        val txtRemainingTime: TextView =
-            view.findViewById(R.id.row_finished_events_txtRemainingTime)
-        val txtDelete: TextView =
-            view.findViewById(R.id.row_finished_events_txtDelete)
-
+        val imageDelete: ImageView = view.findViewById(R.id.row_finished_events_imageDelete)
 
     }
 
@@ -135,6 +140,28 @@ class EventAdapter(
 
         holder.switchAlarm.isChecked = event.isNotifying
 
+        if (event.isNotifying) {
+            holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_access_alarm_24,null))
+
+        }else {
+            holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_alarm_off_24,null))
+        }
+
+        holder.switchAlarm.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+
+            switchListener?.invoke(b,event)
+
+
+            if (b) {
+                holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_access_alarm_24,null))
+
+            }else {
+                holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_alarm_off_24,null))
+            }
+
+        }
+
+
     }
 
     private fun bindFinishedViewHolder(event: Event, holder: FinishedViewHolder) {
@@ -142,7 +169,7 @@ class EventAdapter(
         holder.txtEventName.text = event.eventName
         holder.txtDefinedDate.text = formatDate(event)
 
-        holder.txtDelete.setOnClickListener {
+        holder.imageDelete.setOnClickListener {
             initDeleteDialog(event)
 
         }

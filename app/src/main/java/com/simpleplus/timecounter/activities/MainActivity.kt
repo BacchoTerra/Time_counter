@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -154,11 +155,18 @@ class MainActivity : AppCompatActivity() {
 
         submitListToAdapter()
         handleChipsFilter()
+
+        adapter.switchListener = { b: Boolean, event: Event ->
+
+            if (b) setAlarm(event,event.id.toLong()) else cancelAlarm(event)
+
+        }
+
     }
 
     private fun submitListToAdapter() {
 
-        allEvent.observe(this, {
+        allEvent.observe(this) {
 
             val currentTime = System.currentTimeMillis()
 
@@ -173,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
             adapter.submitList(it)
 
-        })
+        }
 
     }
 

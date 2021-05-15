@@ -5,56 +5,40 @@
     android:id="@+id/row_open_events_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/errorColor"
     android:layout_marginVertical="@dimen/margin_12dp">
-
-    <ImageView
-        android:id="@+id/row_finished_events_imageAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_access_alarm_24" />
-
-    <TextView
-        android:id="@+id/row_finished_events_txtRemainingTime"
-        style="@style/TextStyleRobotoBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="145:34:23:12"
-        android:textSize="@dimen/text_size_24"
-        app:layout_constraintBottom_toBottomOf="@+id/row_finished_events_imageAlarm"
-        app:layout_constraintStart_toEndOf="@+id/row_finished_events_imageAlarm"
-        app:layout_constraintTop_toTopOf="@+id/row_finished_events_imageAlarm" />
-
-    <TextView
-        android:id="@+id/row_finished_events_txtDefinedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/row_finished_events_txtRemainingTime"
-        app:layout_constraintTop_toBottomOf="@+id/row_finished_events_txtRemainingTime"
-        tools:text="Definido para 22/12/2021" />
 
     <TextView
         android:id="@+id/row_finished_events_txtEventName"
         style="@style/TextStyleRobotoMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/text_size_16"
-        app:layout_constraintStart_toStartOf="@+id/row_finished_events_txtDefinedDate"
-        app:layout_constraintTop_toBottomOf="@+id/row_finished_events_txtDefinedDate"
+        android:textColor="@color/textDisabled"
+        android:textSize="@dimen/text_size_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Concluir faculdade" />
 
+
     <TextView
-        android:id="@+id/row_finished_events_txtDelete"
+        android:id="@+id/row_finished_events_txtDefinedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_delete"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/row_finished_events_txtEventName"
+        app:layout_constraintTop_toBottomOf="@+id/row_finished_events_txtEventName"
+        android:textColor="@color/textDisabled"
+        tools:text="Definido para 22/12/2021" />
+
+    <ImageView
+        android:id="@+id/row_finished_events_imageDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingStart="@dimen/padding_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/row_finished_events_txtRemainingTime" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_delete_outline_24"
+        app:tint="@color/textDisabled"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

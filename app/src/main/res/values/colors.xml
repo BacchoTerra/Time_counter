@@ -10,6 +10,7 @@
 
     <color name="primaryColor">#246EE9</color>
     <color name="darkPrimaryColor">#003A9A</color>
+    <color name="lightPrimaryColor">#6C9EF0</color>
     <color name="backgroundColor">#F3F8FF</color>
     <color name="surfaceColor">#B5BDCA</color>
     <color name="onPrimary">#EFF5FF</color>
@@ -40,6 +41,7 @@
 
     <color name="brandSymbolColor">@color/primaryColor</color>
     <color name="fabColor">@color/primaryColor</color>
+    <color name="textDisabled">#A3A3A3</color>
 
 
 </resources>
