@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.activities.AddEventActivity
+import com.simpleplus.timecounter.activities.InformationActivity
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.viewmodel.EventViewModel
 import java.text.SimpleDateFormat
@@ -28,7 +29,6 @@ import java.util.concurrent.TimeUnit
 
 
 class EventAdapter(
-    private val launcher: ActivityResultLauncher<Intent>,
     private val context: Context,
     private val viewModel: EventViewModel
 ) :
@@ -44,7 +44,7 @@ class EventAdapter(
     private val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     //Listener for switch
-    var switchListener :((Boolean,Event) -> Unit)? = null
+    var switchListener: ((Boolean, Event) -> Unit)? = null
 
     class OpenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -52,8 +52,8 @@ class EventAdapter(
         val txtEventName: TextView = view.findViewById(R.id.row_finished_events_txtEventName)
         val txtDefinedDate: TextView = view.findViewById(R.id.row_finished_events_txtDefinedDate)
         val txtRemainingTime: TextView = view.findViewById(R.id.row_open_events_txtRemainingTime)
-        val switchAlarm : SwitchCompat = view.findViewById(R.id.row_open_events_switchAlarm)
-        val imageAlarm : ImageView = view.findViewById(R.id.row_open_events_imageAlarm)
+        val switchAlarm: SwitchCompat = view.findViewById(R.id.row_open_events_switchAlarm)
+        val imageAlarm: ImageView = view.findViewById(R.id.row_open_events_imageAlarm)
 
 
     }
@@ -130,33 +130,54 @@ class EventAdapter(
 
         holder.root.setOnClickListener {
 
-            launcher.launch(Intent(Intent(context, AddEventActivity::class.java).apply {
-                putExtra(
-                    context.getString(R.string.extra_key_event),
-                    event
-                )
-            }))
+            context.startActivity(Intent(context, InformationActivity::class.java).apply {
+                putExtra(context.getString(R.string.extra_key_event), event)
+            })
         }
 
         holder.switchAlarm.isChecked = event.isNotifying
 
         if (event.isNotifying) {
-            holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_access_alarm_24,null))
+            holder.imageAlarm.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_baseline_access_alarm_24,
+                    null
+                )
+            )
 
-        }else {
-            holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_alarm_off_24,null))
+        } else {
+            holder.imageAlarm.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_baseline_alarm_off_24,
+                    null
+                )
+            )
         }
 
         holder.switchAlarm.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
 
-            switchListener?.invoke(b,event)
+            switchListener?.invoke(b, event)
 
 
             if (b) {
-                holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_access_alarm_24,null))
+                holder.imageAlarm.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        context.resources,
+                        R.drawable.ic_baseline_access_alarm_24,
+                        null
+                    )
+                )
 
-            }else {
-                holder.imageAlarm.setImageDrawable(ResourcesCompat.getDrawable(context.resources,R.drawable.ic_baseline_alarm_off_24,null))
+            } else {
+                holder.imageAlarm.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        context.resources,
+                        R.drawable.ic_baseline_alarm_off_24,
+                        null
+                    )
+                )
             }
 
         }
@@ -189,21 +210,17 @@ class EventAdapter(
         val minutes = TimeUnit.MILLISECONDS.toMinutes(millisToIt) - TimeUnit.HOURS.toMinutes(
             TimeUnit.MILLISECONDS.toHours(millisToIt)
         )
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(millisToIt) - TimeUnit.MINUTES.toSeconds(
-            TimeUnit.MILLISECONDS.toMinutes(millisToIt)
-        )
 
-        holder.txtRemainingTime.text = buildTimeString(days, hours, minutes, seconds)
+        holder.txtRemainingTime.text = buildTimeString(days, hours, minutes)
     }
 
-    private fun buildTimeString(days: Long, hours: Long, minutes: Long, seconds: Long): String {
+    private fun buildTimeString(days: Long, hours: Long, minutes: Long): String {
 
         val builder = StringBuilder()
 
         builder.append(if (days > 9) "${days}d " else "0${days}d ")
         builder.append(if (hours > 9) "${hours}h " else "0${hours}h ")
         builder.append(if (minutes > 9) "${minutes}m " else "0${minutes} m ")
-        //builder.append(if (seconds > 9) "$seconds " else "0$seconds")
 
         return builder.toString()
 

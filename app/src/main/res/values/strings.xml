@@ -44,4 +44,16 @@
 
     <string name="label_week_day_month">%1$s, %2$d de %3$s</string>
     <string name="label_dayOfMonth_month_year">%1$d de %2$s de %3$d</string>
+    <string name="label_periods">Períodos</string>
+    <string name="content_desc_imageEventDetails">imagem com detalhes do evento salvo</string>
+    <string name="label_day">dias</string>
+    <string name="label_minutes">minutos</string>
+    <string name="label_hours">horas</string>
+    <string name="label_months">meses</string>
+    <string name="label_years">anos</string>
+    <string name="label_edit">Editar</string>
+    <string name="label_time_remaining">Temto faltando</string>
+    <string name="label_expected_date">Data prevista</string>
+    <string name="label_event">Evento</string>
+    <string name="label_period_missing">%1$s faltando</string>
 </resources>

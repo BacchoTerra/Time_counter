@@ -103,27 +103,10 @@ class AddEventActivity : AppCompatActivity() {
     private fun customizePickers() {
 
         binder.activityAddEventTimePicker.setIs24HourView(true)
-        binder.activityAddEventDatePicker.minDate = calendar.timeInMillis
+        binder.activityAddEventDatePicker.minDate = System.currentTimeMillis()
 
         bindPickerListeners()
 
-
-    }
-
-    private fun initDeleteDialog() {
-        val builder = AlertDialog.Builder(this).apply {
-            setTitle(R.string.label_delete_event)
-            setMessage(R.string.label_permanent_action)
-            setPositiveButton(R.string.label_delete) { _: DialogInterface, _: Int ->
-                sendResultBack(eventEditing!!, true)
-            }
-            setNegativeButton(R.string.label_cancel) { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-            }
-        }
-
-        val alertDialog = builder.create()
-        alertDialog.show()
 
     }
 
@@ -141,10 +124,9 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun bindEditingValues() {
 
-        /*
+
         binder.activityAddEventEditEventTitle.setText(eventEditing?.eventName)
         calendar.timeInMillis = eventEditing?.timestamp!!
-        binder.activityAddEventBtnSave.isEnabled = true
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             binder.activityAddEventTimePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -154,15 +136,13 @@ class AddEventActivity : AppCompatActivity() {
             binder.activityAddEventTimePicker.currentMinute = calendar.get(Calendar.MINUTE)
         }
 
-        binder.activityAddEventBtnSave.text = getString(R.string.label_update)
+        binder.activityAddEventTxtSave.text = getString(R.string.label_update)
 
         binder.activityAddEventSwitchEnableNotification.isChecked = eventEditing?.isNotifying!!
 
-        binder.activityAddEditEventTxtDelete.visibility = View.VISIBLE
-
         updateUiWithCalendarDate()
 
-         */
+
     }
 
     private fun bindPickerListeners() {
@@ -229,10 +209,12 @@ class AddEventActivity : AppCompatActivity() {
             val event = eventEditing?.copy(
                 eventName = eventName,
                 timestamp = calendar.timeInMillis,
+                month =  calendar.get(Calendar.MONTH),
+                year = calendar.get(Calendar.YEAR),
                 isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
             )
 
-            sendResultBack(event!!,false)
+            sendResultBack(event!!)
             return
         }
 
@@ -244,14 +226,13 @@ class AddEventActivity : AppCompatActivity() {
             year = calendar.get(Calendar.YEAR)
         )
 
-        sendResultBack(event,false)
+        sendResultBack(event)
     }
 
-    private fun sendResultBack(event: Event, shouldDeleteIt: Boolean) {
+    private fun sendResultBack(event: Event) {
 
         val intent = Intent()
         intent.putExtra(getString(R.string.extra_key_event), event)
-        intent.putExtra(getString(R.string.extra_key_delete_event), shouldDeleteIt)
         setResult(RESULT_OK, intent)
         finish()
 

@@ -26,5 +26,9 @@
     <dimen name="radius_15dp">15dp</dimen>
     <dimen name="margin_64dp">64dp</dimen>
     <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
+    <dimen name="text_size_40">40sp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
 
 </resources>

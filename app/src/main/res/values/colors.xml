@@ -12,7 +12,7 @@
     <color name="darkPrimaryColor">#003A9A</color>
     <color name="lightPrimaryColor">#6C9EF0</color>
     <color name="backgroundColor">#F3F8FF</color>
-    <color name="surfaceColor">#B5BDCA</color>
+    <color name="surfaceColor">#D2E1FC</color>
     <color name="onPrimary">#EFF5FF</color>
     <color name="onBackground">#000B1D</color>
     <color name="onSurface">#203558</color>

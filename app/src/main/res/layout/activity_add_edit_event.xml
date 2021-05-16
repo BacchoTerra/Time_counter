@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:backgroundTint="@color/backgroundColor"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    tools:context=".activities.AddEventActivity">
 
     <ScrollView
         android:layout_width="match_parent"

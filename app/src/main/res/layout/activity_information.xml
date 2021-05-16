@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".activities.InformationActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/activity_information_appbarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:id="@+id/activity_information_toolbar"
+            app:menu="@menu/menu_information_activity"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".40" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_bottom_corners_view"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_information_appbarLayout"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/activity_information_txtRemainingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="13d 34h 43 m"
+        style="@style/TextStyleRobotoMedium"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_32"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/activity_information_appbarLayout" />
+
+    <TextView
+        style="@style/TextStyleRobotoLight"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        android:id="@+id/activity_information_labelRemainingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_time_remaining"
+        app:layout_constraintEnd_toEndOf="@+id/activity_information_txtRemainingTime"
+        app:layout_constraintStart_toStartOf="@+id/activity_information_txtRemainingTime"
+        app:layout_constraintTop_toBottomOf="@+id/activity_information_txtRemainingTime" />
+
+    <TextView
+        android:id="@+id/activity_information_labelExpectedDate"
+        style="@style/TextStyleRobotoMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_expected_date"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintBottom_toTopOf="@+id/activity_information_txtExpectedDate"
+        app:layout_constraintEnd_toStartOf="@+id/activity_information_txtRemainingTime"
+        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+
+    <TextView
+        android:id="@+id/activity_information_txtExpectedDate"
+        style="@style/TextStyleRobotoLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintEnd_toEndOf="@+id/activity_information_labelExpectedDate"
+        app:layout_constraintStart_toStartOf="@+id/activity_information_labelExpectedDate"
+        tools:text="12/02/2021" />
+
+    <TextView
+        android:id="@+id/activity_information_labelEventName"
+        style="@style/TextStyleRobotoMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_event"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintBottom_toTopOf="@+id/activity_information_txtEventName"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toEndOf="@+id/activity_information_txtRemainingTime" />
+
+    <TextView
+        android:id="@+id/activity_information_txtEventName"
+        style="@style/TextStyleRobotoLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/onPrimary"
+        android:textSize="@dimen/text_size_16"
+        android:maxLength="16"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_information_txtExpectedDate"
+        app:layout_constraintEnd_toEndOf="@+id/activity_information_labelEventName"
+        app:layout_constraintStart_toStartOf="@+id/activity_information_labelEventName"
+        tools:text="Terminar a faculdade" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        style="@style/TextStyleRobotoLight"
+        android:textSize="@dimen/text_size_16"
+        android:text="@string/label_periods"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <include
+                android:id="@+id/activity_information_contentYearsMissing"
+                layout="@layout/content_time_missing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <include
+                android:id="@+id/activity_information_contentMonthsMissing"
+                layout="@layout/content_time_missing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
+
+
+            <include
+                android:id="@+id/activity_information_contentDaysMissing"
+                layout="@layout/content_time_missing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+
+            <include
+                android:id="@+id/activity_information_contentHoursMissing"
+                layout="@layout/content_time_missing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+
+            <include
+                android:id="@+id/activity_information_contentMinutesMissing"
+                layout="@layout/content_time_missing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        tools:context=".activities.InformationActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundColor"
+            tools:context=".activities.InformationActivity">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/activity_information_appbarLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:elevation="0dp"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:background="@color/backgroundColor"
+                    android:id="@+id/activity_information_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/margin_16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/margin_16dp" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:contentDescription="@string/content_desc_imageEventDetails"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@id/activity_information_appbarLayout"
+                app:srcCompat="@drawable/ic_container_clock" />
+
+            <TextView
+                android:id="@+id/activity_information_txtEventName"
+                style="@style/TextStyleRobotoBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/onPrimary"
+                android:textSize="@dimen/text_size_20"
+                app:layout_constraintBottom_toTopOf="@+id/activity_information_txtDate"
+                app:layout_constraintStart_toStartOf="@+id/activity_information_txtDate"
+                tools:text="Concluir faculdade" />
+
+            <TextView
+                android:id="@+id/activity_information_txtDate"
+                style="@style/TextStyleRobotoLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="24dp"
+                android:textColor="@color/onPrimary"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                tools:text="22/12/2020" />
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/TextStyleRobotoLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/label_periods"
+                android:textColor="@color/onBackground"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/activity_information_flexBoxLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:flexWrap="wrap"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline10"
+                app:layout_constraintStart_toStartOf="@id/guideline6"
+                app:layout_constraintTop_toBottomOf="@id/textView4">
+
+                <include
+                    android:id="@+id/activity_information_contentYears"
+                    layout="@layout/content_time_missing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:layout_marginBottom="@dimen/margin_24dp" />
+
+                <include
+                    android:id="@+id/activity_information_contentMonths"
+                    layout="@layout/content_time_missing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:layout_marginBottom="@dimen/margin_24dp" />
+
+                <include
+                    android:id="@+id/activity_information_contentDays"
+                    layout="@layout/content_time_missing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:layout_marginBottom="@dimen/margin_24dp" />
+
+                <include
+                    android:id="@+id/activity_information_contentHours"
+                    layout="@layout/content_time_missing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:layout_marginBottom="@dimen/margin_24dp" />
+
+                <include
+                    android:id="@+id/activity_information_contentMinutes"
+                    layout="@layout/content_time_missing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:layout_marginBottom="@dimen/margin_24dp" />
+
+
+            </com.google.android.flexbox.FlexboxLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView> -->
