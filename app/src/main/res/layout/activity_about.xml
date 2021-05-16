@@ -39,6 +39,7 @@
         android:layout_marginBottom="32dp"
         android:text="@string/label_email"
         android:textIsSelectable="true"
+        android:textColor="@color/onBackground"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toTopOf="@+id/activity_About_fabSendEmail"
         app:layout_constraintStart_toStartOf="@+id/guideline8" />

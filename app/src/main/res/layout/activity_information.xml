@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@color/primaryColorAsBackground"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:id="@+id/activity_information_toolbar"
             app:menu="@menu/menu_information_activity"
@@ -65,7 +66,7 @@
         android:layout_marginTop="16dp"
         tools:text="13d 34h 43 m"
         style="@style/TextStyleRobotoMedium"
-        android:textColor="@color/onPrimary"
+        android:textColor="@color/onPrimaryAsBackground"
         android:textSize="@dimen/text_size_32"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
@@ -73,7 +74,7 @@
 
     <TextView
         style="@style/TextStyleRobotoLight"
-        android:textColor="@color/onPrimary"
+        android:textColor="@color/onPrimaryAsBackground"
         android:textSize="@dimen/text_size_16"
         android:id="@+id/activity_information_labelRemainingTime"
         android:layout_width="wrap_content"
@@ -90,10 +91,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_expected_date"
-        android:textColor="@color/onPrimary"
+        android:textColor="@color/onPrimaryAsBackground"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toTopOf="@+id/activity_information_txtExpectedDate"
-        app:layout_constraintEnd_toStartOf="@+id/activity_information_txtRemainingTime"
         app:layout_constraintStart_toStartOf="@+id/guideline6" />
 
     <TextView
@@ -102,10 +102,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:textColor="@color/onPrimary"
+        android:textColor="@color/onPrimaryAsBackground"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
-        app:layout_constraintEnd_toEndOf="@+id/activity_information_labelExpectedDate"
         app:layout_constraintStart_toStartOf="@+id/activity_information_labelExpectedDate"
         tools:text="12/02/2021" />
 
@@ -115,23 +114,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_event"
-        android:textColor="@color/onPrimary"
+        android:textColor="@color/onPrimaryAsBackground"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toTopOf="@+id/activity_information_txtEventName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline10"
-        app:layout_constraintStart_toEndOf="@+id/activity_information_txtRemainingTime" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline10" />
 
     <TextView
         android:id="@+id/activity_information_txtEventName"
         style="@style/TextStyleRobotoLight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/onPrimary"
-        android:textSize="@dimen/text_size_16"
         android:maxLength="16"
+        android:textColor="@color/onPrimaryAsBackground"
+        android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toBottomOf="@+id/activity_information_txtExpectedDate"
         app:layout_constraintEnd_toEndOf="@+id/activity_information_labelEventName"
-        app:layout_constraintStart_toStartOf="@+id/activity_information_labelEventName"
         tools:text="Terminar a faculdade" />
 
     <TextView
@@ -139,6 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:textColor="@color/onBackground"
         style="@style/TextStyleRobotoLight"
         android:textSize="@dimen/text_size_16"
         android:text="@string/label_periods"

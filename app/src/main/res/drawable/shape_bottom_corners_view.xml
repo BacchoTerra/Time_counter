@@ -6,6 +6,6 @@
         android:bottomLeftRadius="@dimen/radius_15dp"/>
 
     <solid
-        android:color="@color/primaryColor"/>
+        android:color="@color/primaryColorAsBackground"/>
 
 </shape>

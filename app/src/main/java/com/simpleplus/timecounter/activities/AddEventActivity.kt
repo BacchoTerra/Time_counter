@@ -50,6 +50,12 @@ class AddEventActivity : AppCompatActivity() {
 
         }
 
+        binder.activityAddEventTxtCancel.setOnClickListener {
+
+            finish()
+
+        }
+
 
     }
 
