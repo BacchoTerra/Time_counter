@@ -1,11 +1,8 @@
 package com.simpleplus.timecounter.activities
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -17,12 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.snackbar.Snackbar
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.adapter.EventAdapter
 import com.simpleplus.timecounter.application.EventApplication
@@ -35,7 +29,6 @@ import com.simpleplus.timecounter.viewmodel.EventViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity() {
@@ -145,7 +138,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun submitListToAdapter() {
 
-        allEvent.observe(this, androidx.lifecycle.Observer {
+        allEvent.observe(this, {
             val currentTime = System.currentTimeMillis()
 
             for (event in it) {
@@ -223,17 +216,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun updateAlarm(event: Event) {
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlertBroadcastReceiver::class.java)
-        AlertBroadcastReceiver.event = event
-        val pendingIntent = PendingIntent.getBroadcast(this, event.id, intent, 0)
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
-
-    }
-
     private fun updateEventIfAppIsRunning() {
 
         AlertBroadcastReceiver.listener = {
@@ -245,7 +227,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.menu_toolbar_main_activity, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

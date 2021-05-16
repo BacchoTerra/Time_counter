@@ -3,7 +3,6 @@ package com.simpleplus.timecounter.dao
 import androidx.room.*
 import com.simpleplus.timecounter.model.Event
 import kotlinx.coroutines.flow.Flow
-import java.time.Year
 
 @Dao
 interface EventDao {

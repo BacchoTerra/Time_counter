@@ -14,6 +14,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/primaryColor"
+        android:contentDescription="@string/content_desc_event_alarm_status"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_access_alarm_24" />
 

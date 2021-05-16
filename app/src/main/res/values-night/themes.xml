@@ -46,11 +46,4 @@
 
     </style>
 
-    <style name="MySwitchStyle">
-
-        <item name="thumbTint">@color/selector_switch_thumb</item>
-        <item name="trackTint">@color/selector_switch_track</item>
-
-    </style>
-
 </resources>

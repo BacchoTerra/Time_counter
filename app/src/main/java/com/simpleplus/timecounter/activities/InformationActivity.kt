@@ -200,7 +200,7 @@ class InformationActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        menuInflater.inflate(R.menu.menu_information_activity, menu)
+        menuInflater.inflate(R.menu.menu_toolbar_information_activity, menu)
 
         return true
     }

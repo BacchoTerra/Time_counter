@@ -1,34 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="margin_20dp">20dp</dimen>
-    <dimen name="height_25dp">25dp</dimen>
     <dimen name="text_size_20">20sp</dimen>
-    <dimen name="margin_8dp">8dp</dimen>
-    <dimen name="padding_6dp">6dp</dimen>
-    <dimen name="padding_2dp">2dp</dimen>
-    <dimen name="margin_16dp">16dp</dimen>
-    <dimen name="elevation_0dp">0dp</dimen>
-    <dimen name="size_200dp">200dp</dimen>
-    <dimen name="size_1dp">1dp</dimen>
-    <dimen name="margin_32dp">32dp</dimen>
-    <dimen name="margin_12dp">12dp</dimen>
-    <dimen name="padding_16dp">16dp</dimen>
-    <dimen name="margin_24dp">24dp</dimen>
     <dimen name="text_size_24">24sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
-    <dimen name="size_150dp">150dp</dimen>
-    <dimen name="radius_32dp">32dp</dimen>
-    <dimen name="radius_8dp">8dp</dimen>
-    <dimen name="margin_4dp">4dp</dimen>
-    <dimen name="margin_2dp">2dp</dimen>
-    <dimen name="margin_3dp">3dp</dimen>
-    <dimen name="radius_15dp">15dp</dimen>
-    <dimen name="margin_64dp">64dp</dimen>
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_32">32sp</dimen>
-    <dimen name="text_size_40">40sp</dimen>
+
+
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+
+
+    <dimen name="padding_6dp">6dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
     <dimen name="padding_8dp">8dp</dimen>
-    <dimen name="padding_24dp">24dp</dimen>
+
+
+    <dimen name="size_1dp">1dp</dimen>
+
+
+    <dimen name="radius_15dp">15dp</dimen>
 
 </resources>

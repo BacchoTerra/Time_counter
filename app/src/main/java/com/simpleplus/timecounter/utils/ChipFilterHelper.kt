@@ -1,13 +1,11 @@
 package com.simpleplus.timecounter.utils
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.view.get
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.simpleplus.timecounter.R
-import java.text.DateFormat
 import java.util.*
 
 class ChipFilterHelper(
@@ -84,7 +82,6 @@ class ChipFilterHelper(
 
             chip.id = chipsId
             chipGroupMonth.addView(chip)
-            Log.i("Porsche", "month id: : ${chip.id}")
             chipsId +=1
         }
 
@@ -111,7 +108,6 @@ class ChipFilterHelper(
             }
             chip.id = chipsId
             chipGroupYear.addView(chip)
-            Log.i("Porsche", "yead id: : ${chip.id}")
             chipsId +=1
         }
 
@@ -119,7 +115,7 @@ class ChipFilterHelper(
 
     private fun getSelectedDate() {
 
-        chipGroupMonth.setOnCheckedChangeListener { group, checkedId ->
+        chipGroupMonth.setOnCheckedChangeListener { _, checkedId ->
             monthSelected = if (checkedId != NO_SELECTION) {
                 checkedId - MONTH_CORRECTION
             } else {
@@ -128,11 +124,10 @@ class ChipFilterHelper(
 
             dateSelectionListener?.invoke(monthSelected, yearSelected)
 
-            Log.i("Porsche", "getSelectedDate: $monthSelected")
 
         }
 
-        chipGroupYear.setOnCheckedChangeListener { group, checkedId ->
+        chipGroupYear.setOnCheckedChangeListener { _, checkedId ->
 
 
             yearSelected = when (checkedId) {
@@ -142,7 +137,6 @@ class ChipFilterHelper(
                 else -> yearsArray[checkedId - YEAR_CORRECTION]
 
             }
-            Log.i("Porsche", "getSelectedDate: $yearSelected")
 
 
             dateSelectionListener?.invoke(monthSelected, yearSelected)

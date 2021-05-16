@@ -1,13 +1,10 @@
 package com.simpleplus.timecounter.activities
 
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TimePicker
-import androidx.appcompat.app.AlertDialog
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.databinding.ActivityAddEditEventBinding
 import com.simpleplus.timecounter.model.Event
@@ -82,25 +79,20 @@ class AddEventActivity : AppCompatActivity() {
     }
 
     private fun changePickersVisibility(viewClicked: View, otherView: View) {
-        Log.i("fusca", "changePickersVisibility: ops")
 
         when {
             viewClicked.visibility == View.GONE && otherView.visibility == View.GONE -> {
                 viewClicked.visibility = View.VISIBLE
-                Log.i("fusca", "changePickersVisibility: 1")
             }
             viewClicked.visibility == View.GONE && otherView.visibility == View.VISIBLE -> {
                 otherView.visibility = View.GONE
                 viewClicked.visibility = View.VISIBLE
-                Log.i("fusca", "changePickersVisibility: 2")
 
             }
             viewClicked.visibility == View.VISIBLE && otherView.visibility == View.GONE -> {
                 viewClicked.visibility = View.GONE
-                Log.i("fusca", "changePickersVisibility: 3")
-            }
-            else -> Log.i("fusca", "changePickersVisibility: caiu no else")
 
+            }
 
         }
 
@@ -171,7 +163,7 @@ class AddEventActivity : AppCompatActivity() {
 
         }
 
-        binder.activityAddEventTimePicker.setOnTimeChangedListener { timePicker: TimePicker, i: Int, i1: Int ->
+        binder.activityAddEventTimePicker.setOnTimeChangedListener { _: TimePicker, i: Int, i1: Int ->
 
             calendar.set(Calendar.HOUR_OF_DAY, i)
             calendar.set(Calendar.MINUTE, i1)
@@ -185,13 +177,10 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun updateUiWithCalendarDate() {
 
-        val weekDayDN =
-            calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())
+
         val monthDN = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         val year = calendar.get(Calendar.YEAR)
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
 
 
         binder.activityAddEventContentDatePicker.contentDatePickerTxtDate.text = getString(R.string.label_dayOfMonth_month_year,dayOfMonth,monthDN,year)

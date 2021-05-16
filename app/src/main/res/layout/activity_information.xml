@@ -20,7 +20,7 @@
             android:background="@color/primaryColorAsBackground"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:id="@+id/activity_information_toolbar"
-            app:menu="@menu/menu_information_activity"
+            app:menu="@menu/menu_toolbar_information_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 

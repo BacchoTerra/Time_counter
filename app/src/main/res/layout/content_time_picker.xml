@@ -23,7 +23,7 @@
         android:id="@+id/content_time_picker_txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
+        tools:text="00:00"
         style="@style/TextStyleRobotoLight"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"

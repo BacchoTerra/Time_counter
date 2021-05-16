@@ -1,6 +1,5 @@
 package com.simpleplus.timecounter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.repository.EventRepository

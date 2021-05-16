@@ -1,10 +1,8 @@
 package com.simpleplus.timecounter.repository
 
 import com.simpleplus.timecounter.dao.EventDao
-import com.simpleplus.timecounter.database.TimeCounterDatabase
 import com.simpleplus.timecounter.model.Event
 import kotlinx.coroutines.flow.Flow
-import java.time.Month
 
 class EventRepository(private val eventDao:EventDao) {
 

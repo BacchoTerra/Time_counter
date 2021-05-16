@@ -39,6 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_outline_24"
         app:tint="@color/textDisabled"
+        android:contentDescription="@string/content_desc_delete_finished_event"
         tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
