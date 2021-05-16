@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -53,6 +54,7 @@ class InformationActivity : AppCompatActivity() {
                 alarmUtil.updateAlarm(event)
                 bindHeaderEventDetails()
                 bindTimePeriods()
+                Toast.makeText(this,R.string.label_event_updated,Toast.LENGTH_SHORT).show()
 
             }
 

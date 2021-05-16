@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -111,8 +112,7 @@ class MainActivity : AppCompatActivity() {
                         AlertBroadcastReceiver.lastEventId = eventViewModel.lastId
                         if (event.isNotifying) alarmUtil.setAlarm(event, eventViewModel.lastId)
                     }
-                    Snackbar.make(binder.root, R.string.label_event_added, Snackbar.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, R.string.label_event_added, Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -154,7 +154,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-             if (it.isEmpty()) binder.activityMainTxtNoItem.visibility = View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
+            if (it.isEmpty()) binder.activityMainTxtNoItem.visibility =
+                View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
 
 
             adapter.submitList(it)
