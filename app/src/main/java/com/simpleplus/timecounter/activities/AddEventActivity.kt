@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TimePicker
+import android.widget.Toast
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.databinding.ActivityAddEditEventBinding
 import com.simpleplus.timecounter.model.Event
@@ -22,8 +23,8 @@ class AddEventActivity : AppCompatActivity() {
 
     //Timestamp from materialDatePicker
     private val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY,0)
-        set(Calendar.MINUTE,0)
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +40,9 @@ class AddEventActivity : AppCompatActivity() {
 
         binder.activityAddEventTxtSave.setOnClickListener {
 
-            if (binder.activityAddEventEditEventTitle.text.isEmpty()){
+            if (binder.activityAddEventEditEventTitle.text.isEmpty()) {
                 binder.activityAddEventEditEventTitle.error = "*"
-            }else{
+            } else {
                 createEvent()
             }
 
@@ -183,45 +184,53 @@ class AddEventActivity : AppCompatActivity() {
         val year = calendar.get(Calendar.YEAR)
 
 
-        binder.activityAddEventContentDatePicker.contentDatePickerTxtDate.text = getString(R.string.label_dayOfMonth_month_year,dayOfMonth,monthDN,year)
+        binder.activityAddEventContentDatePicker.contentDatePickerTxtDate.text =
+            getString(R.string.label_dayOfMonth_month_year, dayOfMonth, monthDN, year)
 
 
-        binder.activityAddEventContentTimePicker.contentTimePickerTxtTime.text = SimpleDateFormat("HH:mm",Locale.getDefault()).format(calendar.timeInMillis)
+        binder.activityAddEventContentTimePicker.contentTimePickerTxtTime.text =
+            SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.timeInMillis)
 
     }
 
     private fun createEvent() {
 
-        val eventName =
-            binder.activityAddEventEditEventTitle.text.toString()
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+
+
+            val eventName =
+                binder.activityAddEventEditEventTitle.text.toString()
 
 
 
-        calendar.set(Calendar.SECOND,0)
-        calendar.set(Calendar.MILLISECOND,0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
 
-        if (isEditing) {
-            val event = eventEditing?.copy(
-                eventName = eventName,
+            if (isEditing) {
+                val event = eventEditing?.copy(
+                    eventName = eventName,
+                    timestamp = calendar.timeInMillis,
+                    month = calendar.get(Calendar.MONTH),
+                    year = calendar.get(Calendar.YEAR),
+                    isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
+                )
+
+                sendResultBack(event!!)
+                return
+            }
+
+            val event = Event(
+                eventName,
                 timestamp = calendar.timeInMillis,
-                month =  calendar.get(Calendar.MONTH),
-                year = calendar.get(Calendar.YEAR),
                 isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
+                month = calendar.get(Calendar.MONTH),
+                year = calendar.get(Calendar.YEAR)
             )
 
-            sendResultBack(event!!)
-            return
+            sendResultBack(event)
+        }else{
+            Toast.makeText(this,R.string.toast_min_one_minute,Toast.LENGTH_SHORT).show()
         }
-
-        val event = Event(
-            eventName,
-            timestamp = calendar.timeInMillis,
-            isNotifying = binder.activityAddEventSwitchEnableNotification.isChecked,
-            month =  calendar.get(Calendar.MONTH),
-            year = calendar.get(Calendar.YEAR)
-        )
-
-        sendResultBack(event)
     }
 
     private fun sendResultBack(event: Event) {

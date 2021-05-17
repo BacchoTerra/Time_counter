@@ -9,6 +9,7 @@
     tools:context=".activities.AddEventActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -151,14 +152,14 @@
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:textSize="@dimen/text_size_16"
         android:backgroundTint="@color/backgroundColor"
         android:gravity="center"
         android:text="@string/label_cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_add_event_txtSave"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_add_event_txtSave" />
 
     <TextView
         android:id="@+id/activity_add_event_txtSave"
@@ -166,14 +167,16 @@
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:textSize="@dimen/text_size_16"
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="@string/label_save"
         android:textColor="@color/primaryColor"
+        android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline7" />
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"

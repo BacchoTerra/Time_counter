@@ -11,6 +11,12 @@
         <item name="colorControlActivated">@color/white</item>
     </style>
 
+    <style name="MyToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+
+    <item name="android:textColor">@color/onBackground</item>
+
+    </style>
+
     <style name="TextStyleRobotoMedium">
 
         <item name="fontFamily">@font/roboto_medium</item>

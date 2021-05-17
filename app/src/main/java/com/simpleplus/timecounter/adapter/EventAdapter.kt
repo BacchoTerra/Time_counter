@@ -72,7 +72,7 @@ class EventAdapter(
 
         override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
 
-            return oldItem.eventName == newItem.eventName && oldItem.timestamp == newItem.timestamp
+            return oldItem.eventName == newItem.eventName && oldItem.timestamp == newItem.timestamp && oldItem.isNotifying == newItem.isNotifying && oldItem.isFinished == newItem.isFinished && oldItem.month == newItem.month && oldItem.year == newItem.year
 
         }
 

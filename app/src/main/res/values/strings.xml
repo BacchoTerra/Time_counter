@@ -14,14 +14,14 @@
     <string name="label_permanent_action">Essa é uma ação permanente e não poderá ser desfeita.</string>
     <string name="label_cancel">Cancelar</string>
     <string name="label_event_added">Evento adicionado</string>
-    <string name="label_event_updated">Evento atualizado</string> !!!!!!!!!!!!!!!!!
+    <string name="label_event_updated">Evento atualizado</string>
     <string name="label_add">Adicionar</string>
     <string name="label_info">Informações</string>
     <string name="label_none">Nenhum</string>
     <string name="notification_content">Chegou o momento!</string>
-    <string name="label_email">E-mail: simpleplus.dev@hotmail.com</string>
+    <string name="label_email">E-mail: simpleplus.dev@gmail.com</string>
     <string name="content_description_send_email">Enviar email</string>
-    <string name="dev_email">simpleplus.dev@hotmail.com</string>
+    <string name="dev_email">simpleplus.dev@gmail.com</string>
     <string name="label_date">Data</string>
     <string name="label_time">Horário</string>
 
@@ -41,4 +41,5 @@
     <string name="content_desc_simple_plus_symbol">símbolo da Simple plus</string>
     <string name="content_desc_delete_finished_event">Deletar evento terminado</string>
     <string name="content_desc_event_alarm_status">Status do alarme deste evento</string>
+    <string name="toast_min_one_minute">Mínimo de 1 minuto para o alarme</string>
 </resources>

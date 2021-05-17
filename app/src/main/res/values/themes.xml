@@ -9,6 +9,14 @@
         <!-- Customize your theme here. -->
         <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
         <item name="colorControlActivated">@color/primaryColor</item>
+        <item name="actionMenuTextColor">#FFCA28</item>
+        <item name="android:actionMenuTextColor">#FFCA28</item>
+    </style>
+
+    <style name="MyToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+
+        <item name="android:textColor">@color/onBackground</item>
+
     </style>
 
     <style name="TextStyleRobotoMedium">
