@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Time counter</string>
+    <string name="app_name">Timekeeper</string>
     <string name="label_no_item_to_show">no items available..</string>
     <string name="content_desc_fab_add">Add new event</string>
     <string name="hint_event_title">Event title</string>
@@ -14,7 +14,7 @@
     <string name="label_permanent_action">This is a permanent action and it cannot be undone.</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_event_added">Event added</string>
-    <string name="label_event_updated">Event updated</string> !!!!!!!!!!!!!!!!!
+    <string name="label_event_updated">Event updated</string>
     <string name="label_add">Add</string>
     <string name="label_info">Information</string>
     <string name="label_none">None</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Time counter</string>
+    <string name="app_name">Contador de tempo</string>
     <string name="label_no_item_to_show">Nenhum item disponível..</string>
     <string name="content_desc_fab_add">Adicionar novo evento</string>
     <string name="hint_event_title">Título do evento</string>
