@@ -1,7 +1,6 @@
 package com.simpleplus.timecounter.activities
 
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -70,10 +69,14 @@ class InformationActivity : AppCompatActivity() {
 
         alarmUtil = AlarmUtil(this)
         retrieveEvent()
-        formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
         bindHeaderEventDetails()
-        bindTimePeriods()
         initToolbar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindTimePeriods()
+        formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
     }
 
     private fun initToolbar() {
@@ -218,6 +221,24 @@ class InformationActivity : AppCompatActivity() {
 
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter(Intent.ACTION_TIME_TICK)
+        registerReceiver(tikReceiver,intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(tikReceiver)
+    }
+
+    private val tikReceiver = object:BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            bindTimePeriods()
+            formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
+        }
     }
 
 }
