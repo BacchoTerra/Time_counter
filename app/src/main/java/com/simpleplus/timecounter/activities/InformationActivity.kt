@@ -16,6 +16,7 @@ import com.simpleplus.timecounter.databinding.ActivityInformationBinding
 import com.simpleplus.timecounter.model.Event
 import com.simpleplus.timecounter.utils.AlarmUtil
 import com.simpleplus.timecounter.viewmodel.EventViewModel
+import java.lang.IllegalArgumentException
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,8 +30,9 @@ class InformationActivity : AppCompatActivity() {
     //Event
     private lateinit var event: Event
 
-    //Date formatter
-    private val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    //formatters
+    private val sdf = SimpleDateFormat("dd/MM/yyyy (HH:mm)", Locale.getDefault())
+    val numberFormatter = NumberFormat.getNumberInstance()
 
     //ViewModel
     private val viewModel: EventViewModel by viewModels {
@@ -105,7 +107,6 @@ class InformationActivity : AppCompatActivity() {
     private fun bindTimePeriods() {
 
         val timeStamp = event.timestamp - System.currentTimeMillis()
-        val numberFormatter = NumberFormat.getNumberInstance()
 
         //Setting days
 
@@ -144,6 +145,12 @@ class InformationActivity : AppCompatActivity() {
             String.format("%.1f", years)
         binder.activityInformationContentYearsMissing.contentTimeMissingTxtPeriod.text =
             getString(R.string.label_period_missing,getString(R.string.label_years))
+
+        if (timeStamp <= 0) {
+            Toast.makeText(this,getString(R.string.toast_event_over,event.eventName),Toast.LENGTH_LONG).show()
+            unregisterReceiver(tikReceiver)
+        }
+
     }
 
     private fun initDeleteDialog() {
@@ -231,7 +238,11 @@ class InformationActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        unregisterReceiver(tikReceiver)
+        try {
+            unregisterReceiver(tikReceiver)
+        }catch (e:IllegalArgumentException) {
+            e.printStackTrace()
+        }
     }
 
     private val tikReceiver = object:BroadcastReceiver() {
@@ -240,5 +251,4 @@ class InformationActivity : AppCompatActivity() {
             formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
         }
     }
-
 }
