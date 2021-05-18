@@ -76,6 +76,7 @@
 
                 <include
                     android:id="@+id/activity_add_event_contentDatePicker"
+                    android:focusable="true"
                     layout="@layout/content_date_picker" />
 
 
@@ -88,6 +89,7 @@
                 android:layout_marginTop="8dp"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
+                android:focusable="true"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -110,6 +112,7 @@
 
                 <include
                     android:id="@+id/activity_add_event_contentTimePicker"
+                    android:focusable="true"
                     layout="@layout/content_time_picker" />
 
 
@@ -121,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:timePickerMode="spinner"
+                android:focusable="true"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -133,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:checked="true"
+                android:focusable="true"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/label_enable_notification"
                 android:textSize="@dimen/text_size_16"

@@ -1,9 +1,12 @@
 package com.simpleplus.timecounter.activities
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TimePicker
 import android.widget.Toast
 import com.simpleplus.timecounter.R
@@ -36,10 +39,12 @@ class AddEventActivity : AppCompatActivity() {
         handlePickersVisibility()
         customizePickers()
         updateUiWithCalendarDate()
+        hideKeyboard()
 
 
         binder.activityAddEventTxtSave.setOnClickListener {
 
+            hideKeyboard()
             if (binder.activityAddEventEditEventTitle.text.isEmpty()) {
                 binder.activityAddEventEditEventTitle.error = "*"
             } else {
@@ -50,6 +55,7 @@ class AddEventActivity : AppCompatActivity() {
 
         binder.activityAddEventTxtCancel.setOnClickListener {
 
+            hideKeyboard()
             finish()
 
         }
@@ -60,6 +66,7 @@ class AddEventActivity : AppCompatActivity() {
     private fun handlePickersVisibility() {
         binder.activityAddEventCardDate.setOnClickListener {
 
+            hideKeyboard()
 
             changePickersVisibility(
                 binder.activityAddEventDatePicker,
@@ -69,6 +76,8 @@ class AddEventActivity : AppCompatActivity() {
         }
 
         binder.activityAddEventCardTime.setOnClickListener {
+
+            hideKeyboard()
             changePickersVisibility(
                 binder.activityAddEventTimePicker,
                 binder.activityAddEventDatePicker
@@ -239,6 +248,17 @@ class AddEventActivity : AppCompatActivity() {
         intent.putExtra(getString(R.string.extra_key_event), event)
         setResult(RESULT_OK, intent)
         finish()
+
+    }
+
+    private fun hideKeyboard() {
+
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        if (imm.isActive) {
+            imm.hideSoftInputFromWindow(binder.activityAddEventEditEventTitle.windowToken,0)
+        }
+
 
     }
 }
