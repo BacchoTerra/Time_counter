@@ -18,10 +18,10 @@ class EventApplication : Application() {
     private val database by lazy { TimeCounterDatabase.getInstance(this) }
     val eventRepo by lazy { EventRepository(database.EventDao()) }
 
-    override fun onCreate() {
+    override fun onCreate() { 
         super.onCreate()
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             val channel1 = NotificationChannel(chanel1Id,getString(R.string.app_name),NotificationManager.IMPORTANCE_HIGH)
             channel1.enableVibration(true)

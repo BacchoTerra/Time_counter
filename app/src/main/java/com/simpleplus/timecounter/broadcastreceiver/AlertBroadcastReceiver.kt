@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.simpleplus.timecounter.R
@@ -27,6 +28,7 @@ class AlertBroadcastReceiver : BroadcastReceiver() {
         createNotification(context)
 
 
+
     }
 
     private fun createNotification(context: Context?) {
@@ -43,9 +45,12 @@ class AlertBroadcastReceiver : BroadcastReceiver() {
             setContentIntent(pendingIntent)
         }.build()
 
+
         notificationManager.notify(1, notification)
 
-        listener?.invoke(event?.copy(id = lastEventId.toInt())!!)
+        if (event != null) {
+            listener?.invoke(event?.copy(id = lastEventId.toInt())!!)
+        }
 
     }
 }

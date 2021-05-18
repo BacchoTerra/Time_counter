@@ -102,7 +102,7 @@ class AddEventActivity : AppCompatActivity() {
     private fun customizePickers() {
 
         binder.activityAddEventTimePicker.setIs24HourView(true)
-        binder.activityAddEventDatePicker.minDate = System.currentTimeMillis()
+        binder.activityAddEventDatePicker.minDate = System.currentTimeMillis() - 10000
 
         bindPickerListeners()
 
@@ -195,7 +195,7 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun createEvent() {
 
-        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+        if ( System.currentTimeMillis() <= calendar.timeInMillis) {
 
 
             val eventName =
