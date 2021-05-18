@@ -54,6 +54,7 @@ class InformationActivity : AppCompatActivity() {
                 alarmUtil.updateAlarm(event)
                 bindHeaderEventDetails()
                 bindTimePeriods()
+                formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
                 Toast.makeText(this,R.string.label_event_updated,Toast.LENGTH_SHORT).show()
 
             }

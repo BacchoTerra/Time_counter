@@ -3,6 +3,10 @@ package com.simpleplus.timecounter.application
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import com.simpleplus.timecounter.R
 import com.simpleplus.timecounter.database.TimeCounterDatabase
@@ -18,7 +22,7 @@ class EventApplication : Application() {
     private val database by lazy { TimeCounterDatabase.getInstance(this) }
     val eventRepo by lazy { EventRepository(database.EventDao()) }
 
-    override fun onCreate() { 
+    override fun onCreate() {
         super.onCreate()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -31,4 +35,5 @@ class EventApplication : Application() {
 
         }
     }
+
 }

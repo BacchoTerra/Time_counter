@@ -1,7 +1,10 @@
 package com.simpleplus.timecounter.activities
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
@@ -62,9 +66,9 @@ class MainActivity : AppCompatActivity() {
 
         alarmUtil = AlarmUtil((this))
         initToolbar()
-        displayHeaderClock()
         startLaunchers()
         initRecyclerView()
+        handleChipsFilter()
         updateEventIfAppIsRunning()
 
     }
@@ -120,17 +124,17 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         allEvent = eventViewModel.selectAll()
 
-        val animator: ItemAnimator = recyclerView.itemAnimator!!
-        if (animator is SimpleItemAnimator) {
-            animator.supportsChangeAnimations = false
-        }
-
         submitListToAdapter()
-        handleChipsFilter()
 
         adapter.switchListener = { b: Boolean, event: Event ->
 
-            if (b) alarmUtil.setAlarm(event, event.id.toLong()) else alarmUtil.cancelAlarm(event)
+            if (b) {
+                alarmUtil.setAlarm(event, event.id.toLong())
+                eventViewModel.update(event.copy(isNotifying = b))
+            } else {
+                alarmUtil.cancelAlarm(event)
+                eventViewModel.update(event.copy(isNotifying = b))
+            }
 
         }
 
@@ -139,13 +143,8 @@ class MainActivity : AppCompatActivity() {
     private fun submitListToAdapter() {
 
         allEvent.observe(this, {
-            val currentTime = System.currentTimeMillis()
 
-            for (event in it) {
-                if (!event.isFinished && event.timestamp <= currentTime) {
-                    eventViewModel.update(event.copy(isFinished = true))
-                }
-            }
+            checkForFinishedEvents()
 
             if (it.isEmpty()) binder.activityMainTxtNoItem.visibility =
                 View.VISIBLE else binder.activityMainTxtNoItem.visibility = View.GONE
@@ -153,6 +152,15 @@ class MainActivity : AppCompatActivity() {
 
             adapter.submitList(it)
         })
+    }
+
+    private fun updateEventIfAppIsRunning() {
+
+        AlertBroadcastReceiver.listener = {
+
+            eventViewModel.update(it.copy(isFinished = true))
+
+        }
 
     }
 
@@ -216,14 +224,50 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun updateEventIfAppIsRunning() {
+    private fun attachTikReceiver() {
 
-        AlertBroadcastReceiver.listener = {
+        val intentFilter = IntentFilter(Intent.ACTION_TIME_TICK)
+        registerReceiver(tickReceiver,intentFilter)
+    }
 
-            eventViewModel.update(it.copy(isFinished = true))
+    private fun detachTickReceiver() {
 
+        unregisterReceiver(tickReceiver)
+
+    }
+
+    private fun checkForFinishedEvents() {
+        val currentTime = System.currentTimeMillis()
+
+        for (event in allEvent.value!!) {
+            if (!event.isFinished && event.timestamp <= currentTime) {
+                eventViewModel.update(event.copy(isFinished = true))
+            }
         }
 
+    }
+
+    private val tickReceiver = object :BroadcastReceiver () {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            displayHeaderClock()
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        attachTikReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        detachTickReceiver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayHeaderClock()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

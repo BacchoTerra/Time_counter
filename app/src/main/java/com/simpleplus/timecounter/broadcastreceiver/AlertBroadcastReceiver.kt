@@ -27,8 +27,6 @@ class AlertBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         createNotification(context)
 
-
-
     }
 
     private fun createNotification(context: Context?) {

@@ -131,8 +131,6 @@ class EventAdapter(
             })
         }
 
-        holder.switchAlarm.isChecked = event.isNotifying
-
         if (event.isNotifying) {
             holder.imageAlarm.setImageDrawable(
                 ResourcesCompat.getDrawable(
@@ -152,12 +150,13 @@ class EventAdapter(
             )
         }
 
-        holder.switchAlarm.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+        holder.switchAlarm.setOnCheckedChangeListener(null)
+        holder.switchAlarm.isChecked = event.isNotifying
 
-            switchListener?.invoke(b, event)
+        holder.switchAlarm.setOnCheckedChangeListener { buttonView, isChecked ->
+            switchListener?.invoke(isChecked, event)
 
-
-            if (b) {
+            if (isChecked) {
                 holder.imageAlarm.setImageDrawable(
                     ResourcesCompat.getDrawable(
                         context.resources,
@@ -175,10 +174,7 @@ class EventAdapter(
                     )
                 )
             }
-
         }
-
-
     }
 
     private fun bindFinishedViewHolder(event: Event, holder: FinishedViewHolder) {
