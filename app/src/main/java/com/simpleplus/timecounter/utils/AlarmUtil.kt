@@ -13,6 +13,8 @@ class AlarmUtil(val context: Context) {
 
      fun setAlarm(event: Event, lastId: Long) {
 
+         if (event.timestamp < System.currentTimeMillis()) return
+
         val intent = Intent(context, AlertBroadcastReceiver::class.java)
         AlertBroadcastReceiver.event = event
         val pendingIntent = PendingIntent.getBroadcast(context, lastId.toInt(), intent, 0)

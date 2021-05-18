@@ -66,7 +66,7 @@ class EventAdapter(
     class EventComparator : DiffUtil.ItemCallback<Event>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
 
-            return oldItem === newItem
+            return oldItem.id == newItem.id
 
         }
 
