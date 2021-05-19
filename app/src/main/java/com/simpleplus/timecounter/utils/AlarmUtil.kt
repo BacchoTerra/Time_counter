@@ -11,6 +11,13 @@ class AlarmUtil(val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    /**
+     * Sets an alarm using event's information
+     *
+     * @param event the event to set the alarm for
+     * @param lastId the id of this event, used if the application is running, to get the events name to create the notification
+     */
+
      fun setAlarm(event: Event, lastId: Long) {
 
          if (event.timestamp < System.currentTimeMillis()) return
@@ -22,6 +29,11 @@ class AlarmUtil(val context: Context) {
 
     }
 
+    /**
+     * Cancels the alarm for an event
+     *
+     * @param event to cancel alarm for
+     */
      fun cancelAlarm(event: Event) {
 
         val intent = Intent(context, AlertBroadcastReceiver::class.java)
@@ -31,6 +43,11 @@ class AlarmUtil(val context: Context) {
         alarmManager.cancel(pendingIntent)
     }
 
+    /**
+     * Method to update an alarm if an event is updated
+     *
+     * @param event the updated event
+     */
      fun updateAlarm(event: Event) {
 
         val intent = Intent(context, AlertBroadcastReceiver::class.java)

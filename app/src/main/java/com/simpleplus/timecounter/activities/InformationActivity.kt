@@ -30,9 +30,9 @@ class InformationActivity : AppCompatActivity() {
     //Event
     private lateinit var event: Event
 
-    //formatters
+    //formatter
     private val sdf = SimpleDateFormat("dd/MM/yyyy (HH:mm)", Locale.getDefault())
-    val numberFormatter = NumberFormat.getNumberInstance()
+    private val numberFormatter: NumberFormat = NumberFormat.getNumberInstance()
 
     //ViewModel
     private val viewModel: EventViewModel by viewModels {
@@ -81,6 +81,9 @@ class InformationActivity : AppCompatActivity() {
         formatAndSetRemainingTime(event.timestamp - System.currentTimeMillis())
     }
 
+    /**
+     * configures initial properties of this activity toolbar
+     */
     private fun initToolbar() {
 
         setSupportActionBar(binder.activityInformationToolbar)
@@ -91,12 +94,18 @@ class InformationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Retrieves the event passed to this activity by EventAdapter
+     */
     private fun retrieveEvent() {
 
         event = intent?.extras?.get(getString(R.string.extra_key_event)) as Event
 
     }
 
+    /**
+     * Bind header values with events details
+     */
     private fun bindHeaderEventDetails() {
 
         binder.activityInformationTxtEventName.text = event.eventName
@@ -104,6 +113,10 @@ class InformationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Generates each time period (years,months,days,hours,minutes) to bind to each layout components
+     * representing each one
+     */
     private fun bindTimePeriods() {
 
         val timeStamp = event.timestamp - System.currentTimeMillis()
@@ -153,6 +166,9 @@ class InformationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Constructs and show an alert dialog to delete the current event
+     */
     private fun initDeleteDialog() {
         val builder = AlertDialog.Builder(this).apply {
             setTitle(R.string.label_delete_event)
@@ -174,6 +190,9 @@ class InformationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Opens AddEventActivity to edit current event
+     */
     private fun launchEditingActivity() {
 
         editLauncher.launch(
@@ -184,6 +203,12 @@ class InformationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Generates numbers for showing how much time is left for the event
+     *
+     * @see InformationActivity.buildTimeString
+     * @param millisToIt how much time missing to the event counting from current moment
+     */
     private fun formatAndSetRemainingTime(millisToIt: Long) {
 
         val days = TimeUnit.MILLISECONDS.toDays(millisToIt)
@@ -197,6 +222,15 @@ class InformationActivity : AppCompatActivity() {
         binder.activityInformationTxtRemainingTime.text = buildTimeString(days, hours, minutes)
     }
 
+    /**
+     * Generates a string representing the time left to the event
+     *
+     * @see InformationActivity.formatAndSetRemainingTime
+     * @param days how many days to it
+     * @param hours how many hours to it
+     * @param minutes how many minutesto it
+     * @return a formatted string with the total time left to the event
+     */
     private fun buildTimeString(days: Long, hours: Long, minutes: Long): String {
 
         val builder = StringBuilder()
@@ -245,6 +279,10 @@ class InformationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * An object that receives an anonymous implementation of BroadcastReceiver
+     * to handle TimeTik Events
+     */
     private val tikReceiver = object:BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             bindTimePeriods()

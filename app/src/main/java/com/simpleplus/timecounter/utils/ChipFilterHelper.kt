@@ -63,6 +63,12 @@ class ChipFilterHelper(
         getSelectedDate()
     }
 
+
+    /**
+     * Creates and adds childrens for a monthChipGroup.
+     * As the calendar count january as 0, the childrens go from -1 to 11.
+     * -1 being no selection, 0 being january, and the rest being the other months
+     */
     private fun buildMonthGroup() {
 
         for (month in -1..11) {
@@ -87,6 +93,10 @@ class ChipFilterHelper(
 
     }
 
+    /**
+     * Creates and adds chips to yearsChipGroup
+     * it goes for yearsArray containing the necessary years and flags to create the filter chips
+     */
     private fun buildYearGroup() {
 
 
@@ -113,6 +123,9 @@ class ChipFilterHelper(
 
     }
 
+    /**
+     * Sends the information through an listener (high level function) to MainActivity.
+     */
     private fun getSelectedDate() {
 
         chipGroupMonth.setOnCheckedChangeListener { _, checkedId ->
@@ -147,6 +160,9 @@ class ChipFilterHelper(
 
     }
 
+    /**
+     * Disable all chips from monthGroup when yearGroup has infiniteYears selected
+     */
     private fun disableAllChips() {
 
         val chip1 = chipGroupMonth[0] as Chip
@@ -161,6 +177,9 @@ class ChipFilterHelper(
 
     }
 
+    /**
+     * Enables all chips from monthGroup when yearGroup has deselected infiniteYears
+     */
     private fun enableAllChips() {
 
         val chip1 = chipGroupMonth[0] as Chip

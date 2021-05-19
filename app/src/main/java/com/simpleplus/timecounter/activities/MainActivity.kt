@@ -73,12 +73,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * configures initial properties of this activity toolbar
+     */
     private fun initToolbar() {
 
         setSupportActionBar(binder.activityMainToolbar)
         supportActionBar?.title = null
     }
 
+    /**
+     * Configures Header clock dates and hours
+     */
     private fun displayHeaderClock() {
 
         val calendar = Calendar.getInstance()
@@ -97,6 +103,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     *  Responsible for handling activityResult events from AddEventActivity
+     */
     private fun startLaunchers() {
         addEventLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -116,6 +125,10 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     *  Create the initial state of the recyclerView to display all the events
+     *  Handle the switch button from each row of the recyclerView
+     */
     private fun initRecyclerView() {
         adapter = EventAdapter(this, eventViewModel)
         val recyclerView = binder.activityMainRecyclerView
@@ -140,6 +153,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Delivers the LiveDta to listAdapter from EventAdapter class
+     */
     private fun submitListToAdapter() {
 
         allEvent.observe(this, {
@@ -154,6 +170,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * If the app is running, the AlertBroadcastReceiver will trigger a function to get the item from the broadcast and update it to a finalized state
+     */
     private fun updateEventIfAppIsRunning() {
 
         AlertBroadcastReceiver.listener = {
@@ -164,6 +183,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Handles the creation and selection of chips to use them as filter for the data from LiveData
+     */
     private fun handleChipsFilter() {
 
         val chipHelper = ChipFilterHelper(
@@ -179,14 +201,12 @@ class MainActivity : AppCompatActivity() {
                 month == ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
                     allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAll()
-                    Log.i("Porsche", "handleChipsFilter: NO SELECTION")
                     submitListToAdapter()
                 }
 
                 month != ChipFilterHelper.NO_SELECTION && year == ChipFilterHelper.NO_SELECTION -> {
                     allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromMonth(month)
-                    Log.i("Porsche", "handleChipsFilter: MONTH")
                     submitListToAdapter()
 
                 }
@@ -195,7 +215,6 @@ class MainActivity : AppCompatActivity() {
 
                     allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromYear(year)
-                    Log.i("Porsche", "handleChipsFilter: YEAR")
                     submitListToAdapter()
 
                 }
@@ -203,7 +222,6 @@ class MainActivity : AppCompatActivity() {
                 year == ChipFilterHelper.INFINITE_YEAR -> {
                     allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromBeyond(chipHelper.beyondYears)
-                    Log.i("Porsche", "handleChipsFilter: INFINITE YEAR")
                     submitListToAdapter()
 
                 }
@@ -211,7 +229,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     allEvent.removeObservers(this)
                     allEvent = eventViewModel.selectAllFromMonthAndYear(month, year)
-                    Log.i("Porsche", "handleChipsFilter: ELSE")
                     submitListToAdapter()
 
                 }
@@ -224,18 +241,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Register a receiver to handle TimeTick events
+     */
     private fun attachTikReceiver() {
 
         val intentFilter = IntentFilter(Intent.ACTION_TIME_TICK)
         registerReceiver(tickReceiver,intentFilter)
     }
 
+    /**
+     * unregister the receiver that handle TimeTick events
+     */
     private fun detachTickReceiver() {
 
         unregisterReceiver(tickReceiver)
 
     }
 
+
+    /**
+     * Every time the method submitListToAdapter is triggered, this method runs, and it goes for every item in the list to check if
+     * current time is greater than event time, and if it is, the item is updated to a finished state
+     * @see MainActivity.submitListToAdapter
+     */
     private fun checkForFinishedEvents() {
         val currentTime = System.currentTimeMillis()
 
@@ -247,6 +276,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * An object that receives an anonymous implementation of BroadcastReceiver
+     * to handle TimeTik Events
+     */
     private val tickReceiver = object :BroadcastReceiver () {
 
         override fun onReceive(context: Context?, intent: Intent?) {

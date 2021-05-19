@@ -42,6 +42,9 @@ class EventAdapter(
     //Listener for switch
     var switchListener: ((Boolean, Event) -> Unit)? = null
 
+    /**
+     * Class representing an opened event
+     */
     class OpenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val root: ViewGroup = view.findViewById(R.id.row_open_events_root)
@@ -54,6 +57,9 @@ class EventAdapter(
 
     }
 
+    /**
+     * Class representing an finished event
+     */
     class FinishedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val txtEventName: TextView = view.findViewById(R.id.row_finished_events_txtEventName)
@@ -63,6 +69,9 @@ class EventAdapter(
     }
 
 
+    /**
+     * Comparator for each event on adapter's list
+     */
     class EventComparator : DiffUtil.ItemCallback<Event>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
 
@@ -118,6 +127,12 @@ class EventAdapter(
 
     }
 
+    /**
+     * Method to bind the row's layout when the event is not finished
+     *
+     * @param event current event on the list
+     * @param holder an instance of OpenViewHolder
+     */
     private fun bindOpenedViewHolder(event: Event, holder: OpenViewHolder) {
 
         holder.txtEventName.text = event.eventName
@@ -177,6 +192,12 @@ class EventAdapter(
         }
     }
 
+    /**
+     * Method to bind the row's layout when the event finished
+     *
+     * @param event current event on the list
+     * @param holder an instance of FinishedViewHolder
+     */
     private fun bindFinishedViewHolder(event: Event, holder: FinishedViewHolder) {
 
         holder.txtEventName.text = event.eventName
@@ -188,11 +209,22 @@ class EventAdapter(
         }
     }
 
+    /**
+     * Creates a string on the format dd/MM/yyyy to bind as defined date to the event to happen
+     */
     private fun formatDate(event: Event): String {
         return sdf.format(event.timestamp)
 
     }
 
+    /**
+     * Creates and binds a string with the remaining time to the event defined date
+     *
+     * @param millisToIt time remaining to event defined date from now
+     * @param holder an instance of openViewHolder
+     *
+     * @see EventAdapter.buildTimeString
+     */
     private fun formatAndSetTime(millisToIt: Long, holder: OpenViewHolder) {
 
         val days = TimeUnit.MILLISECONDS.toDays(millisToIt)
@@ -206,6 +238,13 @@ class EventAdapter(
         holder.txtRemainingTime.text = buildTimeString(days, hours, minutes)
     }
 
+    /**
+     * Builds the string with the remaining time to the event from happening
+     *
+     * @param days how many days missing
+     * @param hours how many hours missing
+     * @param minutes how many minutes missing
+     */
     private fun buildTimeString(days: Long, hours: Long, minutes: Long): String {
 
         val builder = StringBuilder()
@@ -218,6 +257,11 @@ class EventAdapter(
 
     }
 
+    /**
+     * Creates amd shows an alertDialog to confirm event deletion
+     *
+     * @param event te event to delete
+     */
     private fun initDeleteDialog(event: Event) {
         val builder = AlertDialog.Builder(context).apply {
             setTitle(R.string.label_delete_event)

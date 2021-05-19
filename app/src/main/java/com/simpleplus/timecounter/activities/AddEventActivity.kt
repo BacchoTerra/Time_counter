@@ -63,6 +63,11 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+
+    /**
+     * Handle the date and time cads click events
+     * @see AddEventActivity.changePickersVisibility
+     */
     private fun handlePickersVisibility() {
         binder.activityAddEventCardDate.setOnClickListener {
 
@@ -88,6 +93,9 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Changes the visibility of each time and date picker
+     */
     private fun changePickersVisibility(viewClicked: View, otherView: View) {
 
         when {
@@ -108,6 +116,9 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * configures initial properties of time and date pickers
+     */
     private fun customizePickers() {
 
         binder.activityAddEventTimePicker.setIs24HourView(true)
@@ -118,6 +129,10 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * If adding or editing an event, this activty is used. this method checks if there is an extra in the activities intent
+     * @see AddEventActivity.bindEditingValues
+     */
     private fun retrieveEventIfEditing() {
 
         eventEditing = intent?.extras?.getParcelable(getString(R.string.extra_key_event))
@@ -130,6 +145,11 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * If there is an extra on  this activity intent, this method will be triggered and will set all the layout fields
+     * with the editing event data
+     * @see AddEventActivity.retrieveEventIfEditing
+     */
     private fun bindEditingValues() {
 
 
@@ -153,6 +173,9 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Changes the activity calendar instance date and time accordingly to the spinner of the pickers
+     */
     private fun bindPickerListeners() {
 
         binder.activityAddEventDatePicker.init(
@@ -185,6 +208,10 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Updates textViews texts to the selected date on the pickers
+     * or if editing, to the event time
+     */
     private fun updateUiWithCalendarDate() {
 
 
@@ -202,6 +229,10 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Constructs an Event object with all the information gathered from input fields.
+     * It handles if the event is being edited or if its a new addition
+     */
     private fun createEvent() {
 
         if ( System.currentTimeMillis() <= calendar.timeInMillis) {
@@ -242,6 +273,9 @@ class AddEventActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Send the created or updated event back to the activity that called this acctivity
+     */
     private fun sendResultBack(event: Event) {
 
         val intent = Intent()
@@ -251,6 +285,9 @@ class AddEventActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Hides the softKeyBoardInput if other view other then the editText gets focus
+     */
     private fun hideKeyboard() {
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

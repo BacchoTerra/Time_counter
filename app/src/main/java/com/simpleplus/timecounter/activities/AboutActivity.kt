@@ -24,6 +24,9 @@ class AboutActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Opens a BottomSheet to choose an email client to send an email to dev email account
+     */
     private fun sendEmail() {
 
         val intent = Intent(Intent.ACTION_SEND).apply {
