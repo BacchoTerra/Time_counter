@@ -19,19 +19,19 @@ interface EventDao {
     @Query ("DELETE FROM event_table")
     suspend fun deleteAll()
 
-    @Query ("SELECT * FROM event_table ORDER BY timestamp")
+    @Query ("SELECT * FROM event_table ORDER BY timestamp DESC")
     fun selectAll():Flow<List<Event>>
 
-    @Query("SELECT * FROM event_table WHERE month = :month ORDER BY timestamp")
+    @Query("SELECT * FROM event_table WHERE month = :month ORDER BY timestamp DESC")
     fun selectAllFromMonth(month:Int):Flow<List<Event>>
 
-    @Query("SELECT * FROM event_table WHERE year = :year ORDER BY timestamp")
+    @Query("SELECT * FROM event_table WHERE year = :year ORDER BY timestamp DESC")
     fun selectAllFromYear(year:Int):Flow<List<Event>>
 
-    @Query("SELECT * FROM event_table WHERE month = :month AND year = :year ORDER BY timestamp")
+    @Query("SELECT * FROM event_table WHERE month = :month AND year = :year ORDER BY timestamp DESC")
     fun selectAllFromMonthAndYear(month:Int,year:Int):Flow<List<Event>>
 
-    @Query("SELECT * FROM event_table WHERE year > :yearPlus ORDER BY timestamp")
+    @Query("SELECT * FROM event_table WHERE year > :yearPlus ORDER BY timestamp DESC")
     fun selectAllFromBeyond(yearPlus:Int):Flow<List<Event>>
 
 

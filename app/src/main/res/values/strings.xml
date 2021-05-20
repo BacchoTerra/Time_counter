@@ -43,4 +43,5 @@
     <string name="content_desc_event_alarm_status">Status do alarme deste evento</string>
     <string name="toast_min_one_minute">Mínimo de 1 minuto para o alarme</string>
     <string name="toast_event_over">Hora de %1$s !</string>
+    <string name="extra_key_to_notification_receiver">EXTRA_KEY_TO_NOTIFICATION_RECEIVER</string>
 </resources>

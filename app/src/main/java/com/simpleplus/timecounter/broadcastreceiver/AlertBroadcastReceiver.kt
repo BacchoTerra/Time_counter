@@ -16,7 +16,6 @@ import com.simpleplus.timecounter.model.Event
 class AlertBroadcastReceiver : BroadcastReceiver() {
 
     companion object {
-        var event: Event? = null
         var lastEventId = 0L
         var listener: ((Event) -> Unit)? = null
     }
@@ -25,30 +24,35 @@ class AlertBroadcastReceiver : BroadcastReceiver() {
     private lateinit var notificationManager: NotificationManagerCompat
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        createNotification(context)
+
+
+        val bundle =
+            intent?.extras?.getBundle(context?.getString(R.string.extra_key_to_notification_receiver))
+        val event =
+            bundle?.getParcelable(context?.getString(R.string.extra_key_to_notification_receiver)) as Event?
+
+        createNotification(context, event!!)
 
     }
 
-    private fun createNotification(context: Context?) {
+    private fun createNotification(context: Context?, event: Event) {
         notificationManager = NotificationManagerCompat.from(context!!)
-        val intent = Intent(context,MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(context,1,intent,0)
+        val intent = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, event.id, intent, 0)
 
         val notification = NotificationCompat.Builder(context, EventApplication.chanel1Id).apply {
             priority = NotificationCompat.PRIORITY_MAX
             setDefaults(Notification.DEFAULT_ALL)
-            setContentTitle(event?.eventName)
+            setContentTitle(event.eventName)
             setContentText(context.getString(R.string.notification_content))
             setSmallIcon(R.drawable.ic_baseline_check_circle_24)
             setContentIntent(pendingIntent)
         }.build()
+        notificationManager.notify(event.id, notification)
 
 
-        notificationManager.notify(1, notification)
 
-        if (event != null) {
-            listener?.invoke(event?.copy(id = lastEventId.toInt())!!)
-        }
+        listener?.invoke(event.copy(id = lastEventId.toInt()))
 
     }
 }
