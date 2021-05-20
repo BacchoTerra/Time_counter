@@ -26,7 +26,7 @@ class AlarmUtil(val context: Context) {
 
         val intent = Intent(context, AlertBroadcastReceiver::class.java)
         intent.putExtra(context.getString(R.string.extra_key_to_notification_receiver),createBundleWithEvent(event))
-        val pendingIntent = PendingIntent.getBroadcast(context, lastId.toInt(), intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, lastId.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
 
@@ -40,7 +40,7 @@ class AlarmUtil(val context: Context) {
 
         val intent = Intent(context, AlertBroadcastReceiver::class.java)
         intent.putExtra(context.getString(R.string.extra_key_to_notification_receiver),createBundleWithEvent(event))
-        val pendingIntent = PendingIntent.getBroadcast(context, event.id, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, event.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.cancel(pendingIntent)
     }
@@ -56,7 +56,7 @@ class AlarmUtil(val context: Context) {
 
         val intent = Intent(context, AlertBroadcastReceiver::class.java)
         intent.putExtra(context.getString(R.string.extra_key_to_notification_receiver),createBundleWithEvent(event))
-        val pendingIntent = PendingIntent.getBroadcast(context, event.id, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, event.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, event.timestamp, pendingIntent)
 
