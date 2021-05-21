@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         val calendar = Calendar.getInstance()
 
-        val sdf = SimpleDateFormat("kk:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         binder.activityMainTxtDisplayHour.text = sdf.format(System.currentTimeMillis())
 
         val weekDayDN =
@@ -284,6 +284,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
             displayHeaderClock()
+            adapter.notifyDataSetChanged()
         }
 
     }

@@ -44,4 +44,5 @@
     <string name="toast_min_one_minute">Mínimo de 1 minuto para o alarme</string>
     <string name="toast_event_over">Hora de %1$s !</string>
     <string name="extra_key_to_notification_receiver">EXTRA_KEY_TO_NOTIFICATION_RECEIVER</string>
+    <string name="label_max_chars">Máximo de 20 caracteres</string>
 </resources>
