@@ -296,6 +296,5 @@ class AddEventActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(binder.activityAddEventEditEventTitle.windowToken,0)
         }
 
-
     }
 }
